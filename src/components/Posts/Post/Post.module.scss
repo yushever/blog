@@ -44,21 +44,24 @@ button:active {
     background: url("../../../../public/images/heart.svg") no-repeat;
     background-position: 8px 7px;
 }
-
 .tags {
+    display: flex;
+}
+.tag {
     height: 15px;
     width: 27px;
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 2px;
     font-weight: 400;
     font-size: 12px;
-    // line-height: 15px;
     text-align: center;
+    margin-right: 5px;
 }
 
 .header-user {
     display: flex;
     justify-content: space-between;
+    
 }
 
 .user {
@@ -69,6 +72,7 @@ button:active {
 
 .user-info {
     padding-right: 15px;
+    width: 150px;
 }
 
 .user-img {

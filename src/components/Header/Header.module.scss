@@ -1,0 +1,37 @@
+.header {
+    height: 80px;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+}
+
+.heading {
+    padding-left: 20px;
+}
+
+.actions {
+    padding-right: 20px;
+}
+
+.signin {
+    width: 109px;
+    height: 51px;
+    font-size: 18px;
+}
+
+.signup {
+    width: 109px;
+    height: 51px;
+    border: 1px solid #52C41A;
+    border-radius: 5px;
+    color: #52C41A;
+    font-size: 18px;
+
+}

@@ -1,5 +1,7 @@
 export interface IState {
     posts: [];
+    articlesCount: number,
+    pageNumber: number,
 }
 
 export interface IPost {

@@ -1,6 +1,5 @@
 import React from 'react';
 import classes from './Post.module.scss';
-import { HeartOutlined } from '@ant-design/icons';
 import { IPost } from "../../../models"
 import { format } from 'date-fns';
 
@@ -13,7 +12,7 @@ function Post(props: PostProps) {
 
   const mapTags = (tags: string[]) => {
     return tags.map((tag) => {
-      return (<div className={classes.tag} key={Math.random()}>{tag}</div>);
+      return (<div className={classes.tag} key={tag}>{tag}</div>);
     })
   }
 
@@ -24,13 +23,11 @@ function Post(props: PostProps) {
         <div className={classes["header-info"]}>
           <div className={classes.heading}>
             <h2 className={classes.name}>{props.post.title}</h2>
-            {/* <HeartOutlined style={{ fontSize: '18px', color: '#black' }} />
-            <HeartOutlined style={{ fontSize: '18px', color: '#FF0000' }} /> */}
             <button className={classes.likes}>{props.post.favoritesCount}</button>
           </div>
           <div className={classes.tags}>
             {mapTags(props.post.tagList)}
-          </div> 
+          </div>
         </div>
         <div className={classes["header-user"]}>
           <div className={classes["user-info"]}>
@@ -48,7 +45,7 @@ function Post(props: PostProps) {
 
       </div>
       <div className={classes.text}>
-      {props.post.description}
+        {props.post.description}
       </div>
     </div >
   );

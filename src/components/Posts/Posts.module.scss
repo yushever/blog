@@ -1,0 +1,14 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.ant-pagination-item {
+    border: none !important;
+}
+
+.ant-pagination-item:hover {
+    background-color: #1890ff;
+    border-radius: 4px;
+    color: #ffffff !important;
+}

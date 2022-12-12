@@ -21,7 +21,6 @@ function loggerMiddleware() {
 
 const store = createStore(reducer, compose(applyMiddleware(loggerMiddleware, reduxThunk)));
 
-
 root.render(
   <Provider store={store}>
     <App />

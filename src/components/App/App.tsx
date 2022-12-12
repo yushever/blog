@@ -8,6 +8,9 @@ import GetPosts from "../../services/service";
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
+import classes from './App.module.scss';
+import OpenedPost from '../OpenedPost/OpenedPost';
+
 
 interface AppProps {
   getPosts: () => void;
@@ -29,10 +32,13 @@ function App(props: AppProps) {
   return (
     <div>
       <Header />
-      <Login />
-      <Profile />
-      <Signup />
-      <Posts />
+      <div className={classes.content}>
+        <OpenedPost />
+        <Login />
+        <Profile />
+        <Signup />
+        <Posts />
+      </div>
     </div>
   );
 }

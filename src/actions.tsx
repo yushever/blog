@@ -1,30 +1,49 @@
 import GetPosts from "./services/service";
 
 const postsService = new GetPosts();
-
 export const SET = 'SET';
-export const setPosts = (posts: []) => {
+
+export const setPosts = (resObj: { articles: [], articlesCount: number }) => {
     return {
         type: SET,
-        payload: posts,
+        payload: {
+            posts: resObj.articles,
+            articlesCount: resObj.articlesCount
+        },
     };
 };
 
-async function showPosts(dispatch: any) {
-    let posts = await postsService.getAllPosts();
-    dispatch(setPosts(posts));
-    console.log(posts);
-}
 export const getPosts = () => {
-    return (dispatch: any) => { 
+    return (dispatch: any) => {
         {
-            postsService.getAllPosts().then(() => {
-                showPosts(dispatch);
+            postsService.getAllPosts().then((res) => {
+                dispatch(setPosts(res));
+                console.log(res.articlesCount);
+                console.log(res);
+                // showPosts(dispatch);
             });
         }
     };
 };
-
-// const newPosts = postsService.getAllPosts().then((res) => {
-//     console.log(res);
-// });
+export const getPostsByPage = (page: number) => {
+    return (dispatch: any) => {
+        {
+            postsService.getMorePosts(page).then((res) => {
+                dispatch(setPosts(res));
+                // console.log(res);
+                // showPosts(dispatch);
+            });
+        }
+    };
+};
+// export const getPostBySlug = (slug: string) => {
+//     return (dispatch: any) => {
+//         {
+//             postsService.getOnePost(slug).then((res) => {
+//                 dispatch(setPosts(res));
+//                 // console.log(res);
+//                 // showPosts(dispatch);
+//             });
+//         }
+//     };
+// };

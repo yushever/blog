@@ -5,14 +5,18 @@ import { IState } from './models';
 const reducer: Reducer = (
     state: IState = {
         posts: [],
+        articlesCount: 0,
+        pageNumber: 1,
     },
     action: { type?: string; payload?: any } = {}
 ) => {
     switch (action.type) {
         case actions.SET:
+            console.log(action.payload);
             return {
-                ...state, posts: [...state.posts, ...action.payload]
+                ...state, posts: action.payload.posts, articlesCount: action.payload.articlesCount
             };
+
         default:
             return state;
     }

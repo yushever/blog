@@ -1,12 +1,12 @@
 .container {
     display: flex;
-    flex-direction: column;
     width: 941px;
-    height: 140px;
+    flex-direction: column;
     background-color: #FFFFFF;
     border-radius: 5px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
     margin-bottom: 25px;
+    padding-bottom: 20px;
 }
 
 .header {
@@ -36,12 +36,12 @@
     height: 22px;
     border: none;
     font-size: 12px;
-    background: url("../../../../public/images/like.svg") no-repeat;
+    background: url("../../../public/images/like.svg") no-repeat;
     background-position: 8px 7px;
 }
 
 .likes:active {
-    background: url("../../../../public/images/heart.svg") no-repeat;
+    background: url("../../../public/images/heart.svg") no-repeat;
     background-position: 8px 7px;
 }
 
@@ -103,4 +103,12 @@
     height: 45px;
     padding-top: 10px;
     margin-left: 20px;
+    margin-right: 20px;
+}
+
+.main-text {
+    font-size: 20px;
+    line-height: 28px;
+    margin-left: 20px;
+    margin-right: 20px;
 }

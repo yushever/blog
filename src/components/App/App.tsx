@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import classes from './App.module.scss';
 import OpenedPost from '../OpenedPost/OpenedPost';
+import { Routes, Route } from 'react-router-dom';
 
 
 interface AppProps {
@@ -33,11 +34,13 @@ function App(props: AppProps) {
     <div>
       <Header />
       <div className={classes.content}>
-        <OpenedPost />
-        <Login />
-        <Profile />
-        <Signup />
-        <Posts />
+        <Routes>
+          <Route path="/posts" element={<Posts />} />
+          <Route path="/posts/:slug" element={<OpenedPost />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
       </div>
     </div>
   );

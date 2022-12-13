@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import { legacy_createStore as createStore, applyMiddleware, compose } from 'redux';
 import reducer from './reducer';
 import reduxThunk from 'redux-thunk';
+import { BrowserRouter } from "react-router-dom";
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -22,8 +24,10 @@ function loggerMiddleware() {
 const store = createStore(reducer, compose(applyMiddleware(loggerMiddleware, reduxThunk)));
 
 root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>
 );
 

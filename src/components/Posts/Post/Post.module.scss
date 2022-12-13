@@ -18,6 +18,8 @@
 
 .heading {
     display: flex;
+    width: 650px;
+
 }
 
 .name {
@@ -26,6 +28,8 @@
     line-height: 28px;
     color: #1890FF;
     padding-bottom: 5px;
+    max-width: 650px;
+    overflow-wrap: break-word;
 }
 
 .likes {
@@ -50,8 +54,8 @@
 }
 
 .tag {
-    height: 15px;
-    // width: 27px;
+    min-height: 15px;
+    max-width: 400px;
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 2px;
     font-weight: 400;
@@ -59,6 +63,7 @@
     text-align: center;
     padding: 0 5px 0 5px;
     margin-right: 5px;
+    overflow-wrap: break-word;
 }
 
 .header-user {
@@ -103,4 +108,15 @@
     height: 45px;
     padding-top: 10px;
     margin-left: 20px;
+    overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
 }

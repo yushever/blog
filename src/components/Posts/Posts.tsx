@@ -6,6 +6,7 @@ import * as actions from '../../actions';
 import { connect } from 'react-redux';
 import { Pagination } from 'antd';
 import classes from './Posts.module.scss';
+import { Link } from 'react-router-dom';
 // import 'antd/dist/antd.css';
 
 interface PostsProps {
@@ -20,9 +21,10 @@ function Posts(props: PostsProps) {
 
   let elements = el.map((post: IPost) => {
     return (
-      <div key={post.slug}>
+
+      <Link key={post.slug} to={`/posts/${post.slug}`}>
         <Post post={post} />
-      </div>
+      </Link>
     )
   });
   return (

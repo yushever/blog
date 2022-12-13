@@ -4,6 +4,7 @@ import GetPosts from "../../services/service";
 import { IPost } from "../../models"
 import { format } from 'date-fns';
 import ReactMarkdown from 'react-markdown'
+import { useParams } from 'react-router-dom';
 
 interface OpenedPostProps {
   // slug: string;
@@ -12,31 +13,36 @@ interface OpenedPostProps {
 
 function OpenedPost(props: OpenedPostProps) {
   let getPosts = new GetPosts();
-
+  const { slug } = useParams();
   const [post, setPost] = useState<any>({});
 
   useEffect(() => {
     getPosts.getOnePost(
-      "privet-2wy225").then((res) => {
+      slug as string).then((res) => {
         console.log("UseEffect:", res);
         setPost(res);
       });
-  }, [])
+  }, [slug])
 
   console.log("Post", post);
+
+
 
   if (Object.keys(post).length === 0 || post === undefined) {
     console.log("IF", post);
     return null;
   }
 
+
   const publishDate = format(new Date(post.createdAt), 'PPP');
 
   const mapTags = (tags: string[]) => {
     return tags.map((tag) => {
-      return (<div className={classes.tag} key={tag}>{tag}</div>);
+      return (<div className={classes.tag} key={tag}>{tag.slice(0, 100)}</div>);
     })
   }
+
+
 
   return (
     <div className={classes.container}>

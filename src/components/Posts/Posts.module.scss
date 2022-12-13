@@ -12,3 +12,15 @@
     border-radius: 4px;
     color: #ffffff !important;
 }
+
+a {
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+    color: inherit;
+}

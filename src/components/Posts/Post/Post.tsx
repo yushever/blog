@@ -12,7 +12,9 @@ function Post(props: PostProps) {
 
   const mapTags = (tags: string[]) => {
     return tags.map((tag) => {
-      return (<div className={classes.tag} key={tag}>{tag}</div>);
+      if (tag) {
+        return (<div className={classes.tag} key={tag}>{tag.slice(0, 10)}</div>);
+      } return null;
     })
   }
 
@@ -22,7 +24,7 @@ function Post(props: PostProps) {
       <div className={classes.header}>
         <div className={classes["header-info"]}>
           <div className={classes.heading}>
-            <h2 className={classes.name}>{props.post.title}</h2>
+            <div className={classes.name}>{props.post.title.slice(0, 44)}</div>
             <button className={classes.likes}>{props.post.favoritesCount}</button>
           </div>
           <div className={classes.tags}>
@@ -45,7 +47,7 @@ function Post(props: PostProps) {
 
       </div>
       <div className={classes.text}>
-        {props.post.description}
+        {props.post.description.slice(0, 204)}
       </div>
     </div >
   );

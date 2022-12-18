@@ -1,41 +1,86 @@
 .header {
-    height: 80px;
-    background-color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 18px;
+  height: 80px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
 }
 
 button {
-    background-color: transparent;
-    border: none;
+  background-color: transparent;
+  border: none;
 }
 
 .heading {
-    padding-left: 20px;
+  padding-left: 20px;
 }
 
 .actions {
-    padding-right: 20px;
+  padding-right: 20px;
 }
 
 .signin {
-    width: 109px;
-    height: 51px;
-    font-size: 18px;
+  width: 109px;
+  height: 51px;
+  font-size: 18px;
 }
 
 .signup {
-    width: 109px;
-    height: 51px;
-    border: 1px solid #52C41A;
-    border-radius: 5px;
-    color: #52C41A;
-    font-size: 18px;
-
+  width: 109px;
+  height: 51px;
+  border: 1px solid #52c41a;
+  border-radius: 5px;
+  color: #52c41a;
+  font-size: 18px;
 }
 
 .link {
-    color: inherit !important;
+  color: inherit !important;
+}
+
+.logged {
+  display: flex;
+  //   justify-content: space-between;
+  margin-right: 20px;
+  align-items: center;
+}
+
+.create {
+  border: 1px solid #52c41a;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 22px;
+  align-items: center;
+  color: #52c41a;
+  margin-right: 20px;
+  width: 112.23px;
+  height: 31.1px;
+}
+
+.user {
+  display: flex;
+  margin-right: 20px;
+  align-items: center;
+}
+
+.username {
+  font-size: 18px;
+  line-height: 28px;
+  margin-right: 10px;
+}
+
+.logout {
+  width: 109px;
+  height: 51px;
+  border: 1px solid rgba(0, 0, 0, 0.75);
+  font-size: 18px;
+  line-height: 28px;
+  border-radius: 5px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }

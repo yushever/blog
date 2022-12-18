@@ -48,31 +48,23 @@ function Signup(props: SignupProps) {
     setUser((user) => ({ ...user, [name]: value }));
   }
 
-  // function handleForm(e: any) {
-  //   let newUser: IRegisterUser = {
-  //     username: user.username,
-  //     email: user.email,
-  //     password: user.password1,
-  //   };
-  //   e.preventDefault();
-  //   getPosts.registerUser({ user: newUser });
-  //   console.log("You clicked submit", user);
-  //   reset();
-  //   // setUser({ username: "", email: "", password1: "", password2: "" });
-  // }
-
-  function handleForm(data: any) {
-    // let newUser: IRegisterUser = {
-    //   username: user.username,
-    //   email: user.email,
-    //   password: user.password1,
-    // };
+  function handleForm(e: any) {
+    let newUser: IRegisterUser = {
+      username: user.username,
+      email: user.email,
+      password: user.password1,
+    };
     // e.preventDefault();
-    // getPosts.registerUser({ user: newUser });
-    console.log("You clicked submit", data);
+    getPosts.registerUser({ user: newUser });
+    console.log("You clicked submit", user);
     reset();
     // setUser({ username: "", email: "", password1: "", password2: "" });
   }
+
+  // function handleForm(data: any) {
+  //   console.log("You clicked submit", data);
+  //   reset();
+  // }
 
   return (
     <div className={classes.container}>
@@ -96,7 +88,7 @@ function Signup(props: SignupProps) {
               className={classes["input-line"]}
               type="text"
               placeholder="Username"
-              // onChange={handleChange}
+              onChange={handleChange}
               // value={user.username}
             />
           </label>
@@ -124,6 +116,7 @@ function Signup(props: SignupProps) {
               type="text"
               // name="email"
               placeholder="Email address"
+              onChange={handleChange}
               // value={user.email}
             />
           </label>
@@ -153,7 +146,7 @@ function Signup(props: SignupProps) {
               className={classes["input-line"]}
               type="password"
               placeholder="Password"
-              // onChange={handleChange}
+              onChange={handleChange}
               // value={user.password1}
             />
           </label>

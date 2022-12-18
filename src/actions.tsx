@@ -4,6 +4,7 @@ import { ILoggedUser } from "./models";
 const postsService = new GetPosts();
 export const SET = "SET";
 export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
 
 export const setPosts = (resObj: { articles: []; articlesCount: number }) => {
   return {
@@ -55,8 +56,16 @@ export const loginUser = (obj: {
     {
       postsService.loginUser(obj).then((res) => {
         console.log("loginUser", res);
+        localStorage.setItem("user", JSON.stringify(res));
         dispatch(login(res));
       });
     }
+  };
+};
+
+export const logout = () => {
+  localStorage.removeItem("user");
+  return {
+    type: LOGOUT,
   };
 };

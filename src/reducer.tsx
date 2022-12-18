@@ -13,17 +13,23 @@ const reducer: Reducer = (
 ) => {
   switch (action.type) {
     case actions.SET:
-      console.log(action.payload);
+      // console.log(action.payload);
       return {
         ...state,
         posts: action.payload.posts,
         articlesCount: action.payload.articlesCount,
       };
     case actions.LOGIN:
-      console.log(action.payload.user);
+      // console.log(action.payload.user);
       return {
         ...state,
         loggedInUser: action.payload.user,
+      };
+    case actions.LOGOUT:
+      console.log("Logout completed");
+      return {
+        ...state,
+        loggedInUser: undefined,
       };
     default:
       return state;

@@ -7,14 +7,10 @@ import * as actions from "../../actions";
 
 interface HeaderProps {
   loggedInUser?: ILoggedUser;
+  logout: () => void;
 }
 
 function Header(props: HeaderProps) {
-  if (props.loggedInUser) {
-    console.log("Yes there is logged in user");
-  } else {
-    console.log("No user found");
-  }
   return (
     <div className={classes.header}>
       <div className={classes.heading}>Awesome blog</div>
@@ -33,7 +29,9 @@ function Header(props: HeaderProps) {
                 alt="avatar"></img>
             </div>
           </div>
-          <button className={classes.logout}>Log out</button>
+          <button onClick={() => props.logout()} className={classes.logout}>
+            Log out
+          </button>
         </div>
       ) : (
         <div className={classes.actions}>

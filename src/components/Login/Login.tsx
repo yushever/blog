@@ -38,9 +38,10 @@ function Login(props: LoginProps) {
   }
 
   function handleForm(e: any) {
-    e.preventDefault();
+    // e.preventDefault();
     props.loginUser({ user });
     console.log("You clicked submit", user);
+    // localStorage.setItem("user", JSON.stringify(user));
     reset();
     // setUser({ email: "", password: "" });
   }
@@ -85,7 +86,7 @@ function Login(props: LoginProps) {
               name="password"
               placeholder="Password"
               onChange={handleChange}
-              value={user.password}
+              // value={user.password}
             />
           </label>
         </div>

@@ -13,24 +13,33 @@ interface HeaderProps {
 function Header(props: HeaderProps) {
   return (
     <div className={classes.header}>
-      <div className={classes.heading}>Awesome blog</div>
-
+      <Link className={classes.link} to="/posts">
+        <div className={classes.heading}>Awesome blog</div>
+      </Link>
       {props.loggedInUser ? (
         <div className={classes.logged}>
-          <button className={classes.create}>Create article</button>
-          <div className={classes.user}>
-            <div className={classes.username}>
-              {props.loggedInUser.username}
+          <button className={classes.create}>
+            <Link className={classes.link} to="/new-article">
+              Create article
+            </Link>
+          </button>
+          <Link className={classes.link} to="/profile">
+            <div className={classes.user}>
+              <div className={classes.username}>
+                {props.loggedInUser.username}
+              </div>
+              <div className={classes["user-img"]}>
+                <img
+                  className={classes.avatar}
+                  src={props.loggedInUser.image}
+                  alt="avatar"></img>
+              </div>
             </div>
-            <div className={classes["user-img"]}>
-              <img
-                className={classes.avatar}
-                src={props.loggedInUser.image}
-                alt="avatar"></img>
-            </div>
-          </div>
+          </Link>
           <button onClick={() => props.logout()} className={classes.logout}>
-            Log out
+            <Link className={classes.link} to="/sign-in">
+              Log out
+            </Link>
           </button>
         </div>
       ) : (

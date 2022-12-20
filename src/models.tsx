@@ -8,9 +8,18 @@ export interface IState {
 export interface ILoggedUser {
   email: string;
   username: string;
-  bio: string;
-  image: string;
-  token: string;
+  bio?: string;
+  image?: string;
+  token?: string;
+  password?: string;
+}
+
+export interface IEditUser {
+  email?: string;
+  username?: string;
+  bio?: string;
+  image?: string;
+  password?: string;
 }
 
 export interface IRegisterUser {
@@ -30,4 +39,17 @@ export interface IPost {
   tagList: string[];
   title: string;
   updatedAt: string;
+}
+
+export interface INewPost {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
+
+export interface IEditPost {
+  title: string;
+  description: string;
+  body: string;
 }

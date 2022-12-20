@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import classes from './OpenedPost.module.scss';
+import React, { useEffect, useState } from "react";
+import classes from "./OpenedPost.module.scss";
 import GetPosts from "../../services/service";
-import { IPost } from "../../models"
-import { format } from 'date-fns';
-import ReactMarkdown from 'react-markdown'
-import { useParams } from 'react-router-dom';
+import { IState, ILoggedUser } from "../../models";
+import { format } from "date-fns";
+import ReactMarkdown from "react-markdown";
+import { useParams } from "react-router-dom";
+import { connect } from "react-redux";
+import * as actions from "../../actions";
 
 interface OpenedPostProps {
+  loggedInUser?: ILoggedUser;
   // slug: string;
-
 }
 
 function OpenedPost(props: OpenedPostProps) {
@@ -17,32 +19,30 @@ function OpenedPost(props: OpenedPostProps) {
   const [post, setPost] = useState<any>({});
 
   useEffect(() => {
-    getPosts.getOnePost(
-      slug as string).then((res) => {
-        console.log("UseEffect:", res);
-        setPost(res);
-      });
-  }, [slug])
+    getPosts.getOnePost(slug as string).then((res) => {
+      console.log("UseEffect:", res);
+      setPost(res);
+    });
+  }, [slug]);
 
   console.log("Post", post);
-
-
 
   if (Object.keys(post).length === 0 || post === undefined) {
     console.log("IF", post);
     return null;
   }
 
-
-  const publishDate = format(new Date(post.createdAt), 'PPP');
+  const publishDate = format(new Date(post.createdAt), "PPP");
 
   const mapTags = (tags: string[]) => {
     return tags.map((tag) => {
-      return (<div className={classes.tag} key={tag}>{tag.slice(0, 100)}</div>);
-    })
-  }
-
-
+      return (
+        <div className={classes.tag} key={tag}>
+          {tag.slice(0, 100)}
+        </div>
+      );
+    });
+  };
 
   return (
     <div className={classes.container}>
@@ -52,9 +52,7 @@ function OpenedPost(props: OpenedPostProps) {
             <h2 className={classes.name}>{post.title}</h2>
             <button className={classes.likes}>{post.favoritesCount}</button>
           </div>
-          <div className={classes.tags}>
-            {mapTags(post.tagList)}
-          </div>
+          <div className={classes.tags}>{mapTags(post.tagList)}</div>
         </div>
         <div className={classes["header-user"]}>
           <div className={classes["user-info"]}>
@@ -65,20 +63,30 @@ function OpenedPost(props: OpenedPostProps) {
             <img
               className={classes.avatar}
               src={post.author.image}
-              alt="avatar"
-            ></img>
+              alt="avatar"></img>
           </div>
         </div>
       </div>
-      <div className={classes.text}>
-        {post.description}
+      <div className={classes.wrapper}>
+        <div className={classes.text}>{post.description}</div>
+        {props.loggedInUser ? (
+          <div className={classes.buttons}>
+            <button className={classes.delete}>Delete</button>
+            <button className={classes.edit}>Edit</button>
+          </div>
+        ) : null}
       </div>
       <div className={classes["main-text"]}>
         <ReactMarkdown>{post.body}</ReactMarkdown>
       </div>
-    </div >
-
+    </div>
   );
 }
 
-export default OpenedPost;
+const mapStateToProps = (state: IState) => {
+  return {
+    loggedInUser: state.loggedInUser,
+  };
+};
+
+export default connect(mapStateToProps, actions)(OpenedPost);

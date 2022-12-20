@@ -31,6 +31,11 @@ const reducer: Reducer = (
         ...state,
         loggedInUser: undefined,
       };
+    case actions.EDIT_USER:
+      return {
+        ...state,
+        loggedInUser: action.payload?.user,
+      };
     default:
       return state;
   }

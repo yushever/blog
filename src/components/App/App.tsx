@@ -12,6 +12,8 @@ import classes from "./App.module.scss";
 import OpenedPost from "../OpenedPost/OpenedPost";
 import { Routes, Route } from "react-router-dom";
 import { ILoggedUser, IState } from "../../models";
+import NewPost from "../NewPost/NewPost";
+import EditPost from "../EditPost/EditPost";
 
 interface AppProps {
   getPosts: () => void;
@@ -29,23 +31,15 @@ function App(props: AppProps) {
 
   props.getPosts();
 
-  // const [postsData, setPosts] = useState({});
-  // let getPosts = new GetPosts();
-  // getPosts.getAllPosts().then((res) => setPosts(res));
-  // console.log(postsData);
-
-  // useEffect(() => {
-  //   const newPosts = getPosts.getAllPosts().then((res) => setPosts(res))
-  // }, []);
-  // console.log(postsData);
-
   return (
     <div>
       <Header />
       <div className={classes.content}>
         <Routes>
           <Route path="/posts" element={<Posts />} />
+          <Route path="/new-article" element={<NewPost />} />
           <Route path="/posts/:slug" element={<OpenedPost />} />
+          <Route path="/articles/:slug/edit" element={<EditPost />} />
           <Route path="/sign-in" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/sign-up" element={<Signup />} />

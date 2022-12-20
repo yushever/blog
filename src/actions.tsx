@@ -1,10 +1,11 @@
 import GetPosts from "./services/service";
-import { ILoggedUser } from "./models";
+import { IEditUser, ILoggedUser } from "./models";
 
 const postsService = new GetPosts();
 export const SET = "SET";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
+export const EDIT_USER = "EDIT_USER";
 
 export const setPosts = (resObj: { articles: []; articlesCount: number }) => {
   return {
@@ -67,5 +68,26 @@ export const logout = () => {
   localStorage.removeItem("user");
   return {
     type: LOGOUT,
+  };
+};
+
+export const edit = (user: any) => {
+  return {
+    type: EDIT_USER,
+    payload: {
+      user,
+    },
+  };
+};
+
+export const editUser = (obj: { user: IEditUser }, token: string) => {
+  return (dispatch: any) => {
+    {
+      postsService.editUser(obj, token).then((res) => {
+        console.log("editUser", res);
+        localStorage.setItem("user", JSON.stringify(res));
+        dispatch(edit(res));
+      });
+    }
   };
 };

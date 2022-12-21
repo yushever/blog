@@ -58,7 +58,7 @@ function Profile(props: ProfileProps) {
       bio: props.loggedInUser?.bio,
     };
     props.editUser({ user: edittingUser }, props.loggedInUser?.token as string);
-    console.log("You clicked save", props.loggedInUser?.token);
+    console.log("You clicked save", { user }, props.loggedInUser?.token);
     reset();
   }
 

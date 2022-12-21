@@ -25,13 +25,13 @@ export default class GetPosts {
     return res.data.article;
   }
   async registerUser(obj: { user: IRegisterUser }) {
-    let newUser = await axios.post("https://api.realworld.io/api/users", obj);
+    let newUser = await axios.post("https://blog.kata.academy/api/users", obj);
     console.log("Signup", newUser);
     return newUser;
   }
   async loginUser(obj: { user: { email: string; password: string } }) {
     let newUser = await axios.post(
-      "https://api.realworld.io/api/users/login",
+      "https://blog.kata.academy/api/users/login",
       obj
     );
     console.log("Login", newUser.data.user);
@@ -39,7 +39,7 @@ export default class GetPosts {
   }
   async editUser(obj: { user: IEditUser }, token: string) {
     let edittedUser = await axios.put(
-      "https://api.realworld.io/api/user",
+      "https://blog.kata.academy/api/user",
       obj,
       {
         headers: {
@@ -52,7 +52,7 @@ export default class GetPosts {
   }
   async createPost(obj: { article: INewPost }, token: string) {
     let newPost = await axios.post(
-      "https://api.realworld.io/api/articles",
+      "https://blog.kata.academy/api/articles",
       obj,
       {
         headers: {
@@ -65,7 +65,7 @@ export default class GetPosts {
   }
   async editPost(obj: { article: IEditPost }, token: string, slug: string) {
     let edittedPost = await axios.put(
-      `https://api.realworld.io/api/articles/${slug}`,
+      `https://blog.kata.academy/api/articles/${slug}`,
       obj,
       {
         headers: {
@@ -75,6 +75,18 @@ export default class GetPosts {
     );
     console.log("EdittedPost:", edittedPost);
     return edittedPost;
+  }
+  async deletePost(token: string, slug: string) {
+    let deletedPost = await axios.delete(
+      `https://blog.kata.academy/api/articles/${slug}`,
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
+    console.log("deletedPost:", deletedPost);
+    return deletedPost;
   }
 }
 

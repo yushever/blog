@@ -21,14 +21,24 @@ type EditPostForm = {
 
 function EditPost(props: EditPostProps) {
   let getPosts = new GetPosts();
-
   const { slug } = useParams();
+  // const [post, setPost] = useState<any>({});
 
   const [post, setPost] = useState({
     title: "",
     description: "",
-    text: "",
+    body: "",
   });
+
+  useEffect(() => {
+    getPosts.getOnePost(slug as string).then((res) => {
+      console.log("UseEffect:", res);
+      setPost(res);
+      console.log("Post", post);
+    });
+  }, [slug]);
+
+  console.log("Post", post);
 
   const {
     register,
@@ -36,6 +46,16 @@ function EditPost(props: EditPostProps) {
     handleSubmit,
     reset,
   } = useForm<EditPostForm>({
+    // values: {
+    //   title: post.title,
+    //   description: "Title",
+    //   text: post.description,
+    // },
+    defaultValues: {
+      title: post.title,
+      description: post.description,
+      text: post.body,
+    },
     mode: "onBlur",
   });
 
@@ -48,20 +68,20 @@ function EditPost(props: EditPostProps) {
     let edittedPost: IEditPost = {
       title: post.title,
       description: post.description,
-      body: post.text,
+      body: post.body,
     };
     getPosts.editPost(
       { article: edittedPost },
       props.loggedInUser?.token as string,
       slug as string
     );
-    console.log("You clicked submit", edittedPost, props.loggedInUser?.token);
-    reset();
+    console.log("You clicked submit");
+    // reset();
   }
 
   return (
     <div className={classes.container}>
-      <div className={classes.header}>Create new article</div>
+      <div className={classes.header}>Edit article</div>
       <form onSubmit={handleSubmit(handleForm)}>
         <div className={classes.title}>
           <label>
@@ -73,16 +93,17 @@ function EditPost(props: EditPostProps) {
               className={classes["input-title"]}
               type="text"
               placeholder="Title"
+              value={post.title}
               onChange={handleChange}
             />
           </label>
-          <div style={{ height: 20 }}>
+          {/* <div style={{ height: 20 }}>
             {errors?.title && (
               <p className={classes["form-error"]}>
                 {errors.title?.message || "Error!"}
               </p>
             )}
-          </div>
+          </div> */}
         </div>
         <div className={classes.description}>
           <label>
@@ -94,15 +115,16 @@ function EditPost(props: EditPostProps) {
               className={classes["input-description"]}
               type="text"
               placeholder="Description"
+              value={post.description}
               onChange={handleChange}
             />
           </label>
           <div style={{ height: 20 }}>
-            {errors?.description && (
+            {/* {errors?.description && (
               <p className={classes["form-error"]}>
                 {errors.description?.message || "Error!"}
               </p>
-            )}
+            )} */}
           </div>
         </div>
         <div className={classes.text}>
@@ -114,26 +136,27 @@ function EditPost(props: EditPostProps) {
               })}
               className={classes["input-text"]}
               placeholder="Text"
+              value={post.body}
               onChange={handleChange}
             />
           </label>
-          <div style={{ height: 20 }}>
+          {/* <div style={{ height: 20 }}>
             {errors?.text && (
               <p className={classes["form-error"]}>
                 {errors.text?.message || "Error!"}
               </p>
             )}
-          </div>
+          </div> */}
         </div>
         <div className={classes.tags}>
           <label>
             Tags<br></br>
             <input
-              {...register("tag1")}
-              className={classes["input-tag"]}
+              // {...register("tag1")}
+              // className={classes["input-tag"]}
               type="text"
               placeholder="Tag"
-              onChange={handleChange}
+              // onChange={handleChange}
             />
           </label>
           <button className={classes.delete}>Delete</button>

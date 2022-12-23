@@ -5,10 +5,13 @@ import DeletePostModal from "../DeletePost/DeletePostModal";
 import { IState, ILoggedUser } from "../../models";
 import { format } from "date-fns";
 import ReactMarkdown from "react-markdown";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as actions from "../../actions";
+import { message, Popconfirm } from "antd";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface OpenedPostProps {
   loggedInUser?: ILoggedUser;
@@ -18,6 +21,7 @@ interface OpenedPostProps {
 function OpenedPost(props: OpenedPostProps) {
   let getPosts = new GetPosts();
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [post, setPost] = useState<any>({});
   const [modalActive, setModalActive] = useState(false);
 
@@ -29,6 +33,16 @@ function OpenedPost(props: OpenedPostProps) {
   }, [slug]);
 
   console.log("Post", post);
+
+  let deleteArticle = (token: any, slug: any) => {
+    getPosts.deletePost(token, slug).then((res) => {
+      if (res.status === 204) {
+        navigate("/posts");
+        toast.success("The post was deleted.");
+      }
+    });
+    // console.log(res);
+  };
 
   if (Object.keys(post).length === 0 || post === undefined) {
     console.log("IF", post);
@@ -49,12 +63,6 @@ function OpenedPost(props: OpenedPostProps) {
 
   return (
     <div className={classes.container}>
-      <DeletePostModal
-        active={modalActive}
-        setActive={setModalActive}
-        slug={slug as string}
-      />
-
       <div className={classes.header}>
         <div className={classes["header-info"]}>
           <div className={classes.heading}>
@@ -80,11 +88,25 @@ function OpenedPost(props: OpenedPostProps) {
         <div className={classes.text}>{post.description}</div>
         {props.loggedInUser &&
         props.loggedInUser.username === post.author.username ? (
-          <div className={classes.buttons} onClick={() => setModalActive(true)}>
-            <button className={classes.delete}>Delete</button>
+          <div className={classes.buttons}>
+            <Popconfirm
+              title={
+                <div className={classes.popup}>
+                  Are you sure to delete this article?
+                </div>
+              }
+              onConfirm={() => deleteArticle(props.loggedInUser?.token, slug)}
+              onCancel={() => setModalActive(false)}
+              placement={"rightTop"}
+              okText="Yes"
+              cancelText="No">
+              <button className={classes.delete}>Delete</button>
+            </Popconfirm>
+
             <button className={classes.edit}>
               <Link to={`/articles/${slug}/edit`}>Edit</Link>
             </button>
+            <ToastContainer />
           </div>
         ) : null}
       </div>

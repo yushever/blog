@@ -1,14 +1,14 @@
 import React, { useRef } from "react";
 import classes from "./Signup.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import { IPost, IState, IRegisterUser } from "../../models";
 import { useState } from "react";
 import GetPosts from "../../services/service";
 import { useForm } from "react-hook-form";
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import * as yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface SignupProps {}
 
@@ -21,6 +21,8 @@ type RegisterForm = {
 };
 
 function Signup(props: SignupProps) {
+  const navigate = useNavigate();
+
   let getPosts = new GetPosts();
 
   const {
@@ -30,7 +32,7 @@ function Signup(props: SignupProps) {
     handleSubmit,
     reset,
   } = useForm<RegisterForm>({
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const password1 = useRef({});
@@ -54,8 +56,17 @@ function Signup(props: SignupProps) {
       email: user.email,
       password: user.password1,
     };
-    // e.preventDefault();
-    getPosts.registerUser({ user: newUser });
+    getPosts
+      .registerUser({ user: newUser })
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success("Thanks for signing up.");
+          navigate("/sign-in");
+        } else {
+          toast.error("Something went wrong. Try again.");
+        }
+      })
+      .catch((e) => toast.error("Something went wrong. Try again."));
     console.log("You clicked submit", user);
     reset();
     // setUser({ username: "", email: "", password1: "", password2: "" });
@@ -74,6 +85,9 @@ function Signup(props: SignupProps) {
           <label>
             Username<br></br>
             <input
+              style={{
+                border: errors.username?.message ? "1px solid #F5222D" : "",
+              }}
               {...register("username", {
                 required: "Username is required",
                 minLength: {
@@ -104,6 +118,9 @@ function Signup(props: SignupProps) {
           <label>
             Email address<br></br>
             <input
+              style={{
+                border: errors.email?.message ? "1px solid #F5222D" : "",
+              }}
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -132,6 +149,9 @@ function Signup(props: SignupProps) {
           <label>
             Password<br></br>
             <input
+              style={{
+                border: errors.password1?.message ? "1px solid #F5222D" : "",
+              }}
               {...register("password1", {
                 required: "Password is required",
                 minLength: {
@@ -162,6 +182,9 @@ function Signup(props: SignupProps) {
           <label>
             Repeat Password<br></br>
             <input
+              style={{
+                border: errors.password2?.message ? "1px solid #F5222D" : "",
+              }}
               {...register("password2", {
                 required: "Password is required",
                 minLength: {
@@ -213,6 +236,7 @@ function Signup(props: SignupProps) {
           <button className={classes.submit} type="submit">
             Create
           </button>
+          <ToastContainer />
         </div>
       </form>
       <div className={classes.signin}>

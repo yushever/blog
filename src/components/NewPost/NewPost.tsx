@@ -3,8 +3,8 @@ import classes from "./NewPost.module.scss";
 import GetPosts from "../../services/service";
 import { INewPost, IPost, ILoggedUser, IState } from "../../models";
 import ReactMarkdown from "react-markdown";
-import { useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useParams, useNavigate } from "react-router-dom";
+import { useForm, useFieldArray } from "react-hook-form";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 
@@ -16,29 +16,57 @@ type NewPostForm = {
   title: string;
   description: string;
   text: string;
-  tag1?: string;
-  tag2?: string;
+  tagList: { value: string }[];
 };
 
 function NewPost(props: NewPostProps) {
   let getPosts = new GetPosts();
 
+  const navigate = useNavigate();
+
   const [post, setPost] = useState({
     title: "",
     description: "",
     text: "",
-    tag1: "",
-    tag2: "",
   });
 
   const {
     register,
+    control,
     formState: { errors },
     handleSubmit,
     reset,
   } = useForm<NewPostForm>({
     mode: "onBlur",
+    defaultValues: {
+      tagList: [{ value: "" }],
+    },
   });
+
+  const { fields, append, remove } = useFieldArray<NewPostForm>({
+    control,
+    name: "tagList",
+  });
+
+  let tags = fields.map((tag, index) => {
+    return (
+      <li>
+        <input
+          key={tag.id}
+          {...register(`tagList.${index}.value`)}
+          className={classes["input-tag"]}
+          type="text"
+          placeholder="Tag"
+          // onChange={handleChange}
+        />
+        <button className={classes.delete} onClick={() => remove(index)}>
+          Delete
+        </button>
+      </li>
+    );
+  });
+
+  console.log("fields", fields);
 
   function handleChange(e: any) {
     const { name, value } = e.target;
@@ -46,17 +74,24 @@ function NewPost(props: NewPostProps) {
   }
 
   function handleForm(e: any) {
-    let tags: string[] = [post.tag1, post.tag2];
+    // e.preventDefault;
+    let newArr: string[] = fields
+      .filter((el) => el.value.length > 0)
+      .map((el) => el.value);
+
     let newPost: INewPost = {
       title: post.title,
       description: post.description,
       body: post.text,
-      tagList: tags,
+      tagList: newArr,
     };
-    getPosts.createPost(
-      { article: newPost },
-      props.loggedInUser?.token as string
-    );
+    getPosts
+      .createPost({ article: newPost }, props.loggedInUser?.token as string)
+      .then((res) => {
+        if (res.status === 200) {
+          navigate("/posts");
+        }
+      });
     console.log("You clicked submit", newPost, props.loggedInUser?.token);
     reset();
   }
@@ -69,8 +104,15 @@ function NewPost(props: NewPostProps) {
           <label>
             Title<br></br>
             <input
+              style={{
+                border: errors.title?.message ? "1px solid #F5222D" : "",
+              }}
               {...register("title", {
                 required: "Title is required",
+                maxLength: {
+                  value: 5000,
+                  message: "Title is too long",
+                },
               })}
               className={classes["input-title"]}
               type="text"
@@ -90,6 +132,9 @@ function NewPost(props: NewPostProps) {
           <label>
             Short description<br></br>
             <input
+              style={{
+                border: errors.description?.message ? "1px solid #F5222D" : "",
+              }}
               {...register("description", {
                 required: "Description is required",
               })}
@@ -111,6 +156,9 @@ function NewPost(props: NewPostProps) {
           <label>
             Text<br></br>
             <textarea
+              style={{
+                border: errors.text?.message ? "1px solid #F5222D" : "",
+              }}
               {...register("text", {
                 required: "Text is required",
               })}
@@ -128,29 +176,16 @@ function NewPost(props: NewPostProps) {
           </div>
         </div>
         <div className={classes.tags}>
-          <label>
-            Tags<br></br>
-            <input
-              {...register("tag1")}
-              className={classes["input-tag"]}
-              type="text"
-              placeholder="Tag"
-              onChange={handleChange}
-            />
-          </label>
-          <button className={classes.delete}>Delete</button>
-          <button className={classes.add}>Add tag</button>
-        </div>
-        <div className={classes.input}>
-          <input
-            // {...register("tag2")}
-            className={classes["input-tag"]}
-            type="text"
-            placeholder="Tag"
-            // onChange={handleChange}
-          />
-          <button className={classes.delete}>Delete</button>
-          <button className={classes.add}>Add tag</button>
+          Tags<br></br>
+          <ul>{tags}</ul>
+          <button
+            className={classes.add}
+            onClick={(e) => {
+              e.preventDefault();
+              append({ value: "" });
+            }}>
+            Add tag
+          </button>
         </div>
         <button className={classes.submit} type="submit">
           Send

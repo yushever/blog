@@ -8,6 +8,7 @@ const reducer: Reducer = (
     loggedInUser: undefined,
     articlesCount: 0,
     pageNumber: 1,
+    loading: true,
   },
   action: { type?: string; payload?: any } = {}
 ) => {
@@ -18,6 +19,7 @@ const reducer: Reducer = (
         ...state,
         posts: action.payload.posts,
         articlesCount: action.payload.articlesCount,
+        loading: false,
       };
     case actions.LOGIN:
       // console.log(action.payload.user);

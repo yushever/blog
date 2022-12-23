@@ -14,6 +14,8 @@ import { Routes, Route } from "react-router-dom";
 import { ILoggedUser, IState } from "../../models";
 import NewPost from "../NewPost/NewPost";
 import EditPost from "../EditPost/EditPost";
+import RequireAuth from "../hoc/RequireAuth";
+import { Spin } from "antd";
 
 interface AppProps {
   getPosts: () => void;
@@ -36,8 +38,16 @@ function App(props: AppProps) {
       <Header />
       <div className={classes.content}>
         <Routes>
+          <Route path="/" element={<Posts />} />
           <Route path="/posts" element={<Posts />} />
-          <Route path="/new-article" element={<NewPost />} />
+          <Route
+            path="/new-article"
+            element={
+              <RequireAuth>
+                <NewPost />
+              </RequireAuth>
+            }
+          />
           <Route path="/posts/:slug" element={<OpenedPost />} />
           <Route path="/articles/:slug/edit" element={<EditPost />} />
           <Route path="/sign-in" element={<Login />} />

@@ -87,6 +87,9 @@ function EditPost(props: EditPostProps) {
           <label>
             Title<br></br>
             <input
+              style={{
+                border: errors.title?.message ? "1px solid #F5222D" : "",
+              }}
               {...register("title", {
                 required: "Title is required",
               })}
@@ -97,18 +100,21 @@ function EditPost(props: EditPostProps) {
               onChange={handleChange}
             />
           </label>
-          {/* <div style={{ height: 20 }}>
+          <div style={{ height: 20 }}>
             {errors?.title && (
               <p className={classes["form-error"]}>
                 {errors.title?.message || "Error!"}
               </p>
             )}
-          </div> */}
+          </div>
         </div>
         <div className={classes.description}>
           <label>
             Short description<br></br>
             <input
+              style={{
+                border: errors.title?.message ? "1px solid #F5222D" : "",
+              }}
               {...register("description", {
                 required: "Description is required",
               })}
@@ -120,17 +126,20 @@ function EditPost(props: EditPostProps) {
             />
           </label>
           <div style={{ height: 20 }}>
-            {/* {errors?.description && (
+            {errors?.description && (
               <p className={classes["form-error"]}>
                 {errors.description?.message || "Error!"}
               </p>
-            )} */}
+            )}
           </div>
         </div>
         <div className={classes.text}>
           <label>
             Text<br></br>
             <textarea
+              style={{
+                border: errors.title?.message ? "1px solid #F5222D" : "",
+              }}
               {...register("text", {
                 required: "Text is required",
               })}
@@ -140,20 +149,20 @@ function EditPost(props: EditPostProps) {
               onChange={handleChange}
             />
           </label>
-          {/* <div style={{ height: 20 }}>
+          <div style={{ height: 20 }}>
             {errors?.text && (
               <p className={classes["form-error"]}>
                 {errors.text?.message || "Error!"}
               </p>
             )}
-          </div> */}
+          </div>
         </div>
         <div className={classes.tags}>
           <label>
             Tags<br></br>
             <input
-              // {...register("tag1")}
-              // className={classes["input-tag"]}
+              {...register("tag1")}
+              className={classes["input-tag"]}
               type="text"
               placeholder="Tag"
               // onChange={handleChange}
@@ -162,17 +171,7 @@ function EditPost(props: EditPostProps) {
           <button className={classes.delete}>Delete</button>
           <button className={classes.add}>Add tag</button>
         </div>
-        <div className={classes.input}>
-          <input
-            // {...register("tag2")}
-            className={classes["input-tag"]}
-            type="text"
-            placeholder="Tag"
-            // onChange={handleChange}
-          />
-          <button className={classes.delete}>Delete</button>
-          <button className={classes.add}>Add tag</button>
-        </div>
+
         <button className={classes.submit} type="submit">
           Send
         </button>

@@ -3,6 +3,7 @@ export interface IState {
   articlesCount: number;
   pageNumber: number;
   loggedInUser?: ILoggedUser;
+  loading: boolean;
 }
 
 export interface ILoggedUser {

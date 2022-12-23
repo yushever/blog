@@ -1,26 +1,32 @@
 .pagination {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
 }
 
 .ant-pagination-item {
-    border: none !important;
+  border: none !important;
 }
 
 .ant-pagination-item:hover {
-    background-color: #1890ff;
-    border-radius: 4px;
-    color: #ffffff !important;
+  background-color: #1890ff;
+  border-radius: 4px;
+  color: #ffffff !important;
 }
 
 a {
-    text-decoration: none;
-    font-family: 'Inter', sans-serif;
+  text-decoration: none;
+  font-family: "Inter", sans-serif;
 }
 
 a,
 a:visited,
 a:hover,
 a:active {
-    color: inherit;
+  color: inherit;
+}
+
+.spinner {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }

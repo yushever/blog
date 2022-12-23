@@ -64,7 +64,7 @@ export default class GetPosts {
     return newPost;
   }
   async editPost(obj: { article: IEditPost }, token: string, slug: string) {
-    let edittedPost = await axios.put(
+    let editedPost = await axios.put(
       `https://blog.kata.academy/api/articles/${slug}`,
       obj,
       {
@@ -73,8 +73,8 @@ export default class GetPosts {
         },
       }
     );
-    console.log("EdittedPost:", edittedPost);
-    return edittedPost;
+    console.log("EdittedPost:", editedPost);
+    return editedPost;
   }
   async deletePost(token: string, slug: string) {
     let deletedPost = await axios.delete(
@@ -87,6 +87,30 @@ export default class GetPosts {
     );
     console.log("deletedPost:", deletedPost);
     return deletedPost;
+  }
+  async likePost(token: string, slug: string) {
+    let likedPost = await axios.post(
+      `https://blog.kata.academy/api/articles/${slug}/favorite`,
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
+    console.log("likedPost:", likedPost);
+    return likedPost;
+  }
+  async dislikePost(token: string, slug: string) {
+    let dislikedPost = await axios.delete(
+      `https://blog.kata.academy/api/articles/${slug}/favorite`,
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
+    console.log("likedPost:", dislikedPost);
+    return dislikedPost;
   }
 }
 

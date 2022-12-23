@@ -50,15 +50,19 @@ export const login = (user: ILoggedUser) => {
   };
 };
 
-export const loginUser = (obj: {
-  user: { email: string; password: string };
-}) => {
+export const loginUser = (
+  obj: {
+    user: { email: string; password: string };
+  },
+  cb: any
+) => {
   return (dispatch: any) => {
     {
       postsService.loginUser(obj).then((res) => {
         console.log("loginUser", res);
         localStorage.setItem("user", JSON.stringify(res));
         dispatch(login(res));
+        cb();
       });
     }
   };

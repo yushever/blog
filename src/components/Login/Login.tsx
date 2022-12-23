@@ -1,15 +1,20 @@
 import React from "react";
 import classes from "./Login.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import GetPosts from "../../services/service";
 import { useState } from "react";
 import { IState } from "../../models";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface LoginProps {
-  loginUser: (obj: { user: { email: string; password: string } }) => void;
+  loginUser: (
+    obj: { user: { email: string; password: string } },
+    cb: any
+  ) => void;
 }
 
 type LoginForm = {
@@ -18,6 +23,11 @@ type LoginForm = {
 };
 
 function Login(props: LoginProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const fromPage = location.state?.from?.pathname || "/";
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -29,7 +39,7 @@ function Login(props: LoginProps) {
     handleSubmit,
     reset,
   } = useForm<LoginForm>({
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   function handleChange(e: any) {
@@ -39,8 +49,9 @@ function Login(props: LoginProps) {
 
   function handleForm(e: any) {
     // e.preventDefault();
-    props.loginUser({ user });
+    props.loginUser({ user }, () => navigate(fromPage, { replace: true }));
     console.log("You clicked submit", user);
+    // toast.success("Welcome to the awesome blog!");
     // localStorage.setItem("user", JSON.stringify(user));
     reset();
     // setUser({ email: "", password: "" });
@@ -54,6 +65,9 @@ function Login(props: LoginProps) {
           <label>
             Email address<br></br>
             <input
+              style={{
+                border: errors.email?.message ? "1px solid #F5222D" : "",
+              }}
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -94,6 +108,7 @@ function Login(props: LoginProps) {
           <button className={classes.submit} type="submit">
             Login
           </button>
+          <ToastContainer />
         </div>
       </form>
       <div className={classes.signin}>

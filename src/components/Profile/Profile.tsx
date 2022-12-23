@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import classes from "./Profile.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import { IPost, IState, IRegisterUser, IEditUser } from "../../models";
@@ -15,14 +15,15 @@ interface ProfileProps {
 }
 
 type ProfileForm = {
-  username: string;
-  email: string;
+  username?: string;
+  email?: string;
   password: string;
-  avatar: string;
+  avatar?: string;
 };
 
 function Profile(props: ProfileProps) {
   // let getPosts = new GetPosts();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -33,6 +34,7 @@ function Profile(props: ProfileProps) {
     defaultValues: {
       username: props.loggedInUser?.username,
       email: props.loggedInUser?.email,
+      password: props.loggedInUser?.password,
     },
     mode: "onBlur",
   });
@@ -58,6 +60,11 @@ function Profile(props: ProfileProps) {
       bio: props.loggedInUser?.bio,
     };
     props.editUser({ user: edittingUser }, props.loggedInUser?.token as string);
+    // .then((res) => {
+    //   if (res.status === 200) {
+    //     navigate("/posts");
+    //   }
+    // });
     console.log("You clicked save", { user }, props.loggedInUser?.token);
     reset();
   }
@@ -128,6 +135,7 @@ function Profile(props: ProfileProps) {
             New password<br></br>
             <input
               {...register("password", {
+                required: "Password is required",
                 minLength: {
                   value: 6,
                   message: "Password should be 6 to 40 characters",

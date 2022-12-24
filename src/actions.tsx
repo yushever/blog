@@ -6,6 +6,8 @@ export const SET = "SET";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const EDIT_USER = "EDIT_USER";
+export const LIKE = "LIKE";
+export const UNLIKE = "UNLIKE";
 
 export const setPosts = (resObj: { articles: []; articlesCount: number }) => {
   return {
@@ -92,6 +94,30 @@ export const editUser = (obj: { user: IEditUser }, token: string) => {
         localStorage.setItem("user", JSON.stringify(res));
         dispatch(edit(res));
       });
+    }
+  };
+};
+
+export const like = (token: string, slug: string, like: boolean) => {
+  return (dispatch: any) => {
+    if (like) {
+      postsService.likePost(token, slug).then((res) =>
+        dispatch({
+          type: LIKE,
+          payload: {
+            slug,
+          },
+        })
+      );
+    } else {
+      postsService.dislikePost(token, slug).then((res) =>
+        dispatch({
+          type: UNLIKE,
+          payload: {
+            slug,
+          },
+        })
+      );
     }
   };
 };

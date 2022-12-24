@@ -27,6 +27,9 @@ function Posts(props: PostsProps) {
       <Link key={post.slug} to={`/posts/${post.slug}`}>
         <Post post={post} slug={post.slug} />
       </Link>
+      // <div key={post.slug}>
+      //   <Post post={post} slug={post.slug} />
+      // </div>
     );
   });
 

@@ -13,7 +13,7 @@ export default class GetPosts {
       "https://blog.kata.academy/api/articles?limit=5",
       header
     );
-    // console.log(res);
+    console.log(res.data);
     return res.data;
   }
   async getMorePosts(page: number, token?: string) {

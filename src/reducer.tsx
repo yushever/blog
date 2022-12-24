@@ -1,6 +1,6 @@
 import { Reducer } from "redux";
 import * as actions from "./actions";
-import { IState } from "./models";
+import { IState, IPost } from "./models";
 
 const reducer: Reducer = (
   state: IState = {
@@ -38,6 +38,45 @@ const reducer: Reducer = (
         ...state,
         loggedInUser: action.payload?.user,
       };
+    case actions.LIKE:
+      const id = state.posts.findIndex(
+        (el) => el["slug"] === action.payload.slug
+      );
+      let oldPost: IPost = state.posts[id];
+      let newPost = {
+        ...oldPost,
+        favorited: true,
+        favoritesCount: oldPost.favoritesCount + 1,
+      };
+      let newPosts = [
+        ...state.posts.slice(0, id),
+        newPost,
+        ...state.posts.slice(id + 1),
+      ];
+      return {
+        ...state,
+        posts: newPosts,
+      };
+    case actions.UNLIKE:
+      const idx = state.posts.findIndex(
+        (el) => el["slug"] === action.payload.slug
+      );
+      let oldArticle: IPost = state.posts[idx];
+      let newArticle = {
+        ...oldArticle,
+        favorited: false,
+        favoritesCount: oldArticle.favoritesCount - 1,
+      };
+      let newArticles = [
+        ...state.posts.slice(0, idx),
+        newArticle,
+        ...state.posts.slice(idx + 1),
+      ];
+      return {
+        ...state,
+        posts: newArticles,
+      };
+
     default:
       return state;
   }

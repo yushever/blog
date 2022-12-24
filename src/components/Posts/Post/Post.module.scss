@@ -1,114 +1,119 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    width: 941px;
-    height: 140px;
-    background-color: #FFFFFF;
-    border-radius: 5px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-    margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  width: 941px;
+  height: 140px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 25px;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-    margin-left: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  margin-left: 20px;
 }
 
 .heading {
-    display: flex;
-    width: 650px;
-
+  display: flex;
+  width: 650px;
 }
 
 .name {
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 28px;
-    color: #1890FF;
-    padding-bottom: 5px;
-    max-width: 650px;
-    overflow-wrap: break-word;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  color: #1890ff;
+  padding-bottom: 5px;
+  max-width: 650px;
+  overflow-wrap: break-word;
 }
 
 .likes {
-    padding-top: 8px;
-    padding-left: 27px;
-    margin-left: 5px;
-    width: 34px;
-    height: 22px;
-    border: none;
-    font-size: 12px;
-    background: url("../../../../public/images/like.svg") no-repeat;
-    background-position: 8px 7px;
+  padding-top: 8px;
+  padding-left: 27px;
+  margin-left: 5px;
+  width: 34px;
+  height: 22px;
+  border: none;
+  font-size: 12px;
+  background: url("../../../../public/images/like.svg") no-repeat;
+  background-position: 8px 7px;
 }
 
-.likes:active {
-    background: url("../../../../public/images/heart.svg") no-repeat;
-    background-position: 8px 7px;
+.liked {
+  padding-top: 8px;
+  padding-left: 27px;
+  margin-left: 5px;
+  width: 34px;
+  height: 22px;
+  border: none;
+  font-size: 12px;
+  background: url("../../../../public/images/heart.svg") no-repeat;
+  background-position: 8px 7px;
 }
 
 .tags {
-    display: flex;
+  display: flex;
 }
 
 .tag {
-    min-height: 15px;
-    max-width: 400px;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    border-radius: 2px;
-    font-weight: 400;
-    font-size: 12px;
-    text-align: center;
-    padding: 0 5px 0 5px;
-    margin-right: 5px;
-    overflow-wrap: break-word;
+  min-height: 15px;
+  max-width: 400px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+  font-weight: 400;
+  font-size: 12px;
+  text-align: center;
+  padding: 0 5px 0 5px;
+  margin-right: 5px;
+  overflow-wrap: break-word;
 }
 
 .header-user {
-    display: flex;
-    justify-content: space-between;
-
+  display: flex;
+  justify-content: space-between;
 }
 
 .user {
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
 }
 
 .user-info {
-    padding-right: 15px;
-    width: 150px;
+  padding-right: 15px;
+  width: 150px;
 }
 
 .user-img {
-    padding-right: 15px;
+  padding-right: 15px;
 }
 
 .data {
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 22px;
-    color: grey;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 22px;
+  color: grey;
 }
 
 .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 
 .text {
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 22px;
-    width: 682px;
-    height: 45px;
-    padding-top: 10px;
-    margin-left: 20px;
-    overflow-wrap: break-word;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 22px;
+  width: 682px;
+  height: 45px;
+  padding-top: 10px;
+  margin-left: 20px;
+  overflow-wrap: break-word;
 }
 
 h1,
@@ -117,6 +122,6 @@ h3,
 h4,
 h5,
 h6 {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }

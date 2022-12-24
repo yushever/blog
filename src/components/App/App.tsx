@@ -18,7 +18,7 @@ import RequireAuth from "../hoc/RequireAuth";
 import { Spin } from "antd";
 
 interface AppProps {
-  getPosts: () => void;
+  getPosts: (token?: string) => void;
   login: (user: ILoggedUser) => void;
   loggedInUser?: ILoggedUser;
 }
@@ -31,7 +31,7 @@ function App(props: AppProps) {
     }
   }
 
-  props.getPosts();
+  props.getPosts(props.loggedInUser?.token);
 
   return (
     <div>

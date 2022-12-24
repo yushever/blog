@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./Post.module.scss";
 import { IPost, ILoggedUser, IState } from "../../../models";
 import { format } from "date-fns";
@@ -10,21 +10,21 @@ interface PostProps {
   post: IPost;
   loggedInUser?: ILoggedUser;
   slug: string;
+  like: (token: string, slug: string, like: boolean) => void;
 }
 
 function Post(props: PostProps) {
-  let getPosts = new GetPosts();
+  // let getPosts = new GetPosts();
 
-  let likeArticle = (token: any, slug: any) => {
-    getPosts.likePost(token, slug);
-    console.log(token);
-    console.log("liked!");
-  };
+  // let likeArticle = (token: any, slug: any) => {
+  //   getPosts.likePost(token, slug);
+  //   console.log("liked!");
+  // };
 
-  let dislikeArticle = (token: any, slug: any) => {
-    getPosts.dislikePost(token, slug);
-    console.log("disliked!");
-  };
+  // let dislikeArticle = (token: any, slug: any) => {
+  //   getPosts.dislikePost(token, slug);
+  //   console.log("disliked!");
+  // };
 
   const mapTags = (tags: string[]) => {
     return tags.slice(0, 3).map((tag) => {
@@ -47,10 +47,25 @@ function Post(props: PostProps) {
           <div className={classes.heading}>
             <div className={classes.name}>{props.post.title.slice(0, 44)}</div>
             <button
-              className={classes.likes}
-              onClick={() =>
-                likeArticle(props.loggedInUser?.token, props.slug)
-              }>
+              disabled={!props.loggedInUser ? true : false}
+              className={`${
+                props.post.favorited ? classes.liked : classes.likes
+              }`}
+              onClick={() => {
+                if (!props.post.favorited) {
+                  props.like(
+                    props.loggedInUser?.token as string,
+                    props.slug,
+                    true
+                  );
+                } else {
+                  props.like(
+                    props.loggedInUser?.token as string,
+                    props.slug,
+                    false
+                  );
+                }
+              }}>
               {props.post.favoritesCount}
             </button>
           </div>

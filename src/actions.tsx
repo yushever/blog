@@ -1,5 +1,7 @@
 import GetPosts from "./services/service";
 import { IEditUser, ILoggedUser } from "./models";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const postsService = new GetPosts();
 export const SET = "SET";
@@ -8,6 +10,7 @@ export const LOGOUT = "LOGOUT";
 export const EDIT_USER = "EDIT_USER";
 export const LIKE = "LIKE";
 export const UNLIKE = "UNLIKE";
+export const ERROR = "ERROR";
 
 export const setPosts = (resObj: { articles: []; articlesCount: number }) => {
   return {
@@ -22,11 +25,14 @@ export const setPosts = (resObj: { articles: []; articlesCount: number }) => {
 export const getPosts = (token?: string) => {
   return (dispatch: any) => {
     {
-      postsService.getAllPosts(token).then((res) => {
-        dispatch(setPosts(res));
-        // console.log(res.articlesCount);
-        // console.log(res);
-      });
+      postsService
+        .getAllPosts(token)
+        .then((res) => {
+          dispatch(setPosts(res));
+        })
+        .catch((e) => {
+          dispatch({ type: ERROR });
+        });
     }
   };
 };
@@ -34,11 +40,16 @@ export const getPosts = (token?: string) => {
 export const getPostsByPage = (page: number, token?: string) => {
   return (dispatch: any) => {
     {
-      postsService.getMorePosts(page, token).then((res) => {
-        dispatch(setPosts(res));
-        // console.log(res);
-        // showPosts(dispatch);
-      });
+      postsService
+        .getMorePosts(page, token)
+        .then((res) => {
+          dispatch(setPosts(res));
+          // console.log(res);
+          // showPosts(dispatch);
+        })
+        .catch((e) => {
+          dispatch({ type: ERROR });
+        });
     }
   };
 };
@@ -60,12 +71,17 @@ export const loginUser = (
 ) => {
   return (dispatch: any) => {
     {
-      postsService.loginUser(obj).then((res) => {
-        console.log("loginUser", res);
-        localStorage.setItem("user", JSON.stringify(res));
-        dispatch(login(res));
-        cb();
-      });
+      postsService
+        .loginUser(obj)
+        .then((res) => {
+          toast.success("Welcome to the awesome blog!");
+          localStorage.setItem("user", JSON.stringify(res));
+          dispatch(login(res));
+          cb();
+        })
+        .catch((e) => {
+          toast.error("Something went wrong. Please try again.");
+        });
     }
   };
 };
@@ -89,11 +105,17 @@ export const edit = (user: any) => {
 export const editUser = (obj: { user: IEditUser }, token: string) => {
   return (dispatch: any) => {
     {
-      postsService.editUser(obj, token).then((res) => {
-        console.log("editUser", res);
-        localStorage.setItem("user", JSON.stringify(res));
-        dispatch(edit(res));
-      });
+      postsService
+        .editUser(obj, token)
+        .then((res) => {
+          toast.success("Your profile was successfully updated.");
+          console.log("editUser", res);
+          localStorage.setItem("user", JSON.stringify(res));
+          dispatch(edit(res));
+        })
+        .catch((e) => {
+          toast.error("Something went wrong. Please try again.");
+        });
     }
   };
 };

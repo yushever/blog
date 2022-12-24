@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface EditPostProps {
   loggedInUser?: ILoggedUser;
@@ -70,11 +72,16 @@ function EditPost(props: EditPostProps) {
       description: post.description,
       body: post.body,
     };
-    getPosts.editPost(
-      { article: edittedPost },
-      props.loggedInUser?.token as string,
-      slug as string
-    );
+    getPosts
+      .editPost(
+        { article: edittedPost },
+        props.loggedInUser?.token as string,
+        slug as string
+      )
+      .then((res) => {
+        toast.success("The post was edited.");
+      })
+      .catch((e) => toast.error("Something went wrong. Please try again."));
     console.log("You clicked submit");
     // reset();
   }

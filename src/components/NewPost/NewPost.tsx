@@ -7,6 +7,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useForm, useFieldArray } from "react-hook-form";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface NewPostProps {
   loggedInUser?: ILoggedUser;
@@ -57,7 +59,6 @@ function NewPost(props: NewPostProps) {
           className={classes["input-tag"]}
           type="text"
           placeholder="Tag"
-          // onChange={handleChange}
         />
         <button className={classes.delete} onClick={() => remove(index)}>
           Delete
@@ -86,9 +87,11 @@ function NewPost(props: NewPostProps) {
       .createPost({ article: newPost }, props.loggedInUser?.token as string)
       .then((res) => {
         if (res.status === 200) {
+          toast.success("The post was successfully created.");
           navigate("/posts");
         }
-      });
+      })
+      .catch((e) => toast.error("Something went wrong. Please try again."));
     console.log("You clicked submit", newPost, props.loggedInUser?.token);
     reset();
   }

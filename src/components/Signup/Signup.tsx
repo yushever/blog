@@ -59,23 +59,14 @@ function Signup(props: SignupProps) {
     getPosts
       .registerUser({ user: newUser })
       .then((res) => {
-        if (res.status === 200) {
-          toast.success("Thanks for signing up.");
-          navigate("/sign-in");
-        } else {
-          toast.error("Something went wrong. Try again.");
-        }
+        toast.success("Registration successful!");
+        navigate("/sign-in");
       })
-      .catch((e) => toast.error("Something went wrong. Try again."));
-    console.log("You clicked submit", user);
+      .catch((e) => {
+        toast.error("Something went wrong. Please try again.");
+      });
     reset();
-    // setUser({ username: "", email: "", password1: "", password2: "" });
   }
-
-  // function handleForm(data: any) {
-  //   console.log("You clicked submit", data);
-  //   reset();
-  // }
 
   return (
     <div className={classes.container}>
@@ -236,7 +227,6 @@ function Signup(props: SignupProps) {
           <button className={classes.submit} type="submit">
             Create
           </button>
-          <ToastContainer />
         </div>
       </form>
       <div className={classes.signin}>

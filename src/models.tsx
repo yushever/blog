@@ -4,6 +4,7 @@ export interface IState {
   pageNumber: number;
   loggedInUser?: ILoggedUser;
   loading: boolean;
+  error: boolean;
 }
 
 export interface ILoggedUser {

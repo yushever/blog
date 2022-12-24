@@ -9,6 +9,7 @@ const reducer: Reducer = (
     articlesCount: 0,
     pageNumber: 1,
     loading: true,
+    error: false,
   },
   action: { type?: string; payload?: any } = {}
 ) => {
@@ -20,6 +21,7 @@ const reducer: Reducer = (
         posts: action.payload.posts,
         articlesCount: action.payload.articlesCount,
         loading: false,
+        error: false,
       };
     case actions.LOGIN:
       // console.log(action.payload.user);
@@ -76,7 +78,12 @@ const reducer: Reducer = (
         ...state,
         posts: newArticles,
       };
-
+    case actions.ERROR:
+      return {
+        ...state,
+        error: true,
+        loading: false,
+      };
     default:
       return state;
   }

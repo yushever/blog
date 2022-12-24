@@ -4,7 +4,7 @@ import Post from "./Post/Post";
 import { IPost, IState, ILoggedUser } from "../../models";
 import * as actions from "../../actions";
 import { connect } from "react-redux";
-import { Pagination, Spin } from "antd";
+import { Pagination, Spin, Alert } from "antd";
 import classes from "./Posts.module.scss";
 import { Link } from "react-router-dom";
 
@@ -16,6 +16,7 @@ interface PostsProps {
   pageNumber: number;
   articlesCount: number;
   loading: boolean;
+  error: boolean;
   loggedInUser?: ILoggedUser;
 }
 
@@ -32,19 +33,23 @@ function Posts(props: PostsProps) {
       // </div>
     );
   });
-
-  let loader = props.loading ? <Spin className={classes.spinner} /> : null;
-  let pagination = !props.loading ? (
-    <Pagination
-      defaultPageSize={5}
-      showSizeChanger={false}
-      onChange={(e) => props.getPostsByPage(e, props.loggedInUser?.token)}
-      total={props.articlesCount}
-    />
+  let error = props.error ? (
+    <Alert message="Something went wrong" type="error" />
   ) : null;
+  let loader = props.loading ? <Spin className={classes.spinner} /> : null;
+  let pagination =
+    !props.loading && !props.error ? (
+      <Pagination
+        defaultPageSize={5}
+        showSizeChanger={false}
+        onChange={(e) => props.getPostsByPage(e, props.loggedInUser?.token)}
+        total={props.articlesCount}
+      />
+    ) : null;
 
   return (
     <div className={classes.container}>
+      {error}
       {loader}
       {elements}
       <div className={classes.pagination}>{pagination}</div>
@@ -59,6 +64,7 @@ const mapStateToProps = (state: IState) => {
     articlesCount: state.articlesCount,
     loading: state.loading,
     loggedInUser: state.loggedInUser,
+    error: state.error,
   };
 };
 

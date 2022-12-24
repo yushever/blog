@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import classes from "./OpenedPost.module.scss";
 import GetPosts from "../../services/service";
-import DeletePostModal from "../DeletePost/DeletePostModal";
 import { IState, ILoggedUser } from "../../models";
 import { format } from "date-fns";
 import ReactMarkdown from "react-markdown";
@@ -9,7 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as actions from "../../actions";
-import { message, Popconfirm } from "antd";
+import { message, Popconfirm, Alert } from "antd";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,6 +22,7 @@ function OpenedPost(props: OpenedPostProps) {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState<any>({});
+  const [error, setError] = useState(false);
   const [modalActive, setModalActive] = useState(false);
 
   useEffect(() => {
@@ -30,20 +30,25 @@ function OpenedPost(props: OpenedPostProps) {
       .getOnePost(slug as string, props.loggedInUser?.token)
       .then((res) => {
         console.log("UseEffect:", res);
+        setError(false);
         setPost(res);
+      })
+      .catch((e) => {
+        console.log("ERROR", e, error);
+        setError(true);
       });
   }, [slug]);
 
   console.log("Post", post);
 
   let deleteArticle = (token: any, slug: any) => {
-    getPosts.deletePost(token, slug).then((res) => {
-      if (res.status === 204) {
-        navigate("/posts");
+    getPosts
+      .deletePost(token, slug)
+      .then((res) => {
         toast.success("The post was deleted.");
-      }
-    });
-    // console.log(res);
+        navigate("/posts");
+      })
+      .catch((e) => toast.error("Something went wrong. Please try again."));
   };
 
   let likeArticle = (token: any, slug: any) => {
@@ -69,6 +74,14 @@ function OpenedPost(props: OpenedPostProps) {
     console.log("disliked!");
   };
 
+  let errorAlert = error ? (
+    <Alert message="Something went wrong" type="error" />
+  ) : null;
+
+  if (error) {
+    return <div className={classes.alert}>{errorAlert}</div>;
+  }
+
   if (Object.keys(post).length === 0 || post === undefined) {
     console.log("IF", post);
     return null;
@@ -85,6 +98,8 @@ function OpenedPost(props: OpenedPostProps) {
       );
     });
   };
+
+  console.log("NOW ERROR IS ", error);
 
   return (
     <div className={classes.container}>

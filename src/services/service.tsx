@@ -81,7 +81,7 @@ export default class GetPosts {
         },
       }
     );
-    console.log("EdittedPost:", editedPost);
+    console.log("EditedPost:", editedPost);
     return editedPost;
   }
   async deletePost(token: string, slug: string) {

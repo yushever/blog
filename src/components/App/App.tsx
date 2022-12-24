@@ -16,6 +16,8 @@ import NewPost from "../NewPost/NewPost";
 import EditPost from "../EditPost/EditPost";
 import RequireAuth from "../hoc/RequireAuth";
 import { Spin } from "antd";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface AppProps {
   getPosts: (token?: string) => void;
@@ -36,6 +38,7 @@ function App(props: AppProps) {
   return (
     <div>
       <Header />
+      <ToastContainer />
       <div className={classes.content}>
         <Routes>
           <Route path="/" element={<Posts />} />

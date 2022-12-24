@@ -8,6 +8,8 @@ import { useState } from "react";
 import GetPosts from "../../services/service";
 import { useForm } from "react-hook-form";
 import { ILoggedUser } from "../../models";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface ProfileProps {
   loggedInUser?: ILoggedUser;
@@ -60,11 +62,6 @@ function Profile(props: ProfileProps) {
       bio: props.loggedInUser?.bio,
     };
     props.editUser({ user: edittingUser }, props.loggedInUser?.token as string);
-    // .then((res) => {
-    //   if (res.status === 200) {
-    //     navigate("/posts");
-    //   }
-    // });
     console.log("You clicked save", { user }, props.loggedInUser?.token);
     reset();
   }

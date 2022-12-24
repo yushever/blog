@@ -51,10 +51,7 @@ function Login(props: LoginProps) {
     // e.preventDefault();
     props.loginUser({ user }, () => navigate(fromPage, { replace: true }));
     console.log("You clicked submit", user);
-    // toast.success("Welcome to the awesome blog!");
-    // localStorage.setItem("user", JSON.stringify(user));
     reset();
-    // setUser({ email: "", password: "" });
   }
 
   return (

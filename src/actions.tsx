@@ -17,10 +17,10 @@ export const setPosts = (resObj: { articles: []; articlesCount: number }) => {
   };
 };
 
-export const getPosts = () => {
+export const getPosts = (token?: string) => {
   return (dispatch: any) => {
     {
-      postsService.getAllPosts().then((res) => {
+      postsService.getAllPosts(token).then((res) => {
         dispatch(setPosts(res));
         // console.log(res.articlesCount);
         // console.log(res);
@@ -29,10 +29,10 @@ export const getPosts = () => {
   };
 };
 
-export const getPostsByPage = (page: number) => {
+export const getPostsByPage = (page: number, token?: string) => {
   return (dispatch: any) => {
     {
-      postsService.getMorePosts(page).then((res) => {
+      postsService.getMorePosts(page, token).then((res) => {
         dispatch(setPosts(res));
         // console.log(res);
         // showPosts(dispatch);

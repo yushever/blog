@@ -7,21 +7,29 @@ import {
   IEditPost,
 } from "../models";
 export default class GetPosts {
-  async getAllPosts() {
-    let res = await axios.get("https://blog.kata.academy/api/articles?limit=5");
-    console.log(res);
-    return res.data;
-  }
-  async getMorePosts(page: number) {
+  async getAllPosts(token?: string) {
+    let header = token ? { headers: { Authorization: `Token ${token}` } } : {};
     let res = await axios.get(
-      `https://blog.kata.academy/api/articles?limit=5&offset=${5 * (page - 1)}`
+      "https://blog.kata.academy/api/articles?limit=5",
+      header
     );
-    // console.log(res.data.articles)
+    // console.log(res);
     return res.data;
   }
-  async getOnePost(slug: string) {
-    let res = await axios.get(`https://blog.kata.academy/api/articles/${slug}`);
-    // console.log(res);
+  async getMorePosts(page: number, token?: string) {
+    let header = token ? { headers: { Authorization: `Token ${token}` } } : {};
+    let res = await axios.get(
+      `https://blog.kata.academy/api/articles?limit=5&offset=${5 * (page - 1)}`,
+      header
+    );
+    return res.data;
+  }
+  async getOnePost(slug: string, token?: string) {
+    let header = token ? { headers: { Authorization: `Token ${token}` } } : {};
+    let res = await axios.get(
+      `https://blog.kata.academy/api/articles/${slug}`,
+      header
+    );
     return res.data.article;
   }
   async registerUser(obj: { user: IRegisterUser }) {
@@ -89,8 +97,10 @@ export default class GetPosts {
     return deletedPost;
   }
   async likePost(token: string, slug: string) {
+    console.log(token, slug);
     let likedPost = await axios.post(
       `https://blog.kata.academy/api/articles/${slug}/favorite`,
+      {},
       {
         headers: {
           Authorization: `Token ${token}`,
@@ -109,20 +119,7 @@ export default class GetPosts {
         },
       }
     );
-    console.log("likedPost:", dislikedPost);
+    console.log("dislikedPost:", dislikedPost);
     return dislikedPost;
   }
 }
-
-// const object = {
-//   user: {
-//     bio: "Hello guys!",
-//     email: "cat@cat.cat",
-//     image:
-//       "https://is1-ssl.mzstatic.com/image/thumb/Purple1/v4/91/fa/6e/91fa6ed3-2324-2385-75ec-928de68642e1/source/256x256bb.jpg",
-//     password: "catcat",
-//     username: "catcatcat",
-//   },
-// };
-// const postsService = new GetPosts();
-// postsService.editUser(object);

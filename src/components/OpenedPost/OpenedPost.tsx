@@ -26,10 +26,12 @@ function OpenedPost(props: OpenedPostProps) {
   const [modalActive, setModalActive] = useState(false);
 
   useEffect(() => {
-    getPosts.getOnePost(slug as string).then((res) => {
-      console.log("UseEffect:", res);
-      setPost(res);
-    });
+    getPosts
+      .getOnePost(slug as string, props.loggedInUser?.token)
+      .then((res) => {
+        console.log("UseEffect:", res);
+        setPost(res);
+      });
   }, [slug]);
 
   console.log("Post", post);
@@ -42,6 +44,29 @@ function OpenedPost(props: OpenedPostProps) {
       }
     });
     // console.log(res);
+  };
+
+  let likeArticle = (token: any, slug: any) => {
+    getPosts.likePost(token, slug);
+    let updatedPost = {
+      ...post,
+      favorited: true,
+      favoritesCount: post.favoritesCount + 1,
+    };
+    setPost(updatedPost);
+    console.log(post, updatedPost);
+    console.log("liked!");
+  };
+
+  let dislikeArticle = (token: any, slug: any) => {
+    getPosts.dislikePost(token, slug);
+    let updatedPost = {
+      ...post,
+      favorited: false,
+      favoritesCount: post.favoritesCount - 1,
+    };
+    setPost(updatedPost);
+    console.log("disliked!");
   };
 
   if (Object.keys(post).length === 0 || post === undefined) {
@@ -67,7 +92,18 @@ function OpenedPost(props: OpenedPostProps) {
         <div className={classes["header-info"]}>
           <div className={classes.heading}>
             <h2 className={classes.name}>{post.title}</h2>
-            <button className={classes.likes}>{post.favoritesCount}</button>
+            <button
+              disabled={!props.loggedInUser ? true : false}
+              className={`${post.favorited ? classes.liked : classes.likes}`}
+              onClick={() => {
+                if (post.favorited) {
+                  dislikeArticle(props.loggedInUser?.token, slug);
+                } else {
+                  likeArticle(props.loggedInUser?.token, slug);
+                }
+              }}>
+              {post.favoritesCount}
+            </button>
           </div>
           <div className={classes.tags}>{mapTags(post.tagList)}</div>
         </div>

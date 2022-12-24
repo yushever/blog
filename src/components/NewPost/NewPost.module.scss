@@ -72,7 +72,17 @@ label {
 }
 
 .tags {
+  display: flex;
   margin-top: 20px;
+}
+
+.tag-list {
+}
+
+.add-tag {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
 }
 
 .input-tag {
@@ -116,11 +126,11 @@ label {
   color: #1890ff;
   border: 1px solid #1890ff;
   border-radius: 4px;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .submit {
-  margin-top: 30px;
+  margin-top: 20px;
   width: 319px;
   height: 40px;
   background: #1890ff;

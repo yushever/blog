@@ -66,15 +66,12 @@ function NewPost(props: NewPostProps) {
     );
   });
 
-  console.log("fields", fields);
-
   function handleChange(e: any) {
     const { name, value } = e.target;
     setPost((post) => ({ ...post, [name]: value }));
   }
 
   function handleForm(e: any) {
-    // e.preventDefault;
     let newArr: string[] = fields
       .filter((el) => el.value.length > 0)
       .map((el) => el.value);
@@ -176,16 +173,20 @@ function NewPost(props: NewPostProps) {
           </div>
         </div>
         <div className={classes.tags}>
-          Tags<br></br>
-          <ul>{tags}</ul>
-          <button
-            className={classes.add}
-            onClick={(e) => {
-              e.preventDefault();
-              append({ value: "" });
-            }}>
-            Add tag
-          </button>
+          <div className={classes["tag-list"]}>
+            Tags
+            <ul>{tags}</ul>
+          </div>
+          <div className={classes["add-tag"]}>
+            <button
+              className={classes.add}
+              onClick={(e) => {
+                e.preventDefault();
+                append({ value: "" });
+              }}>
+              Add tag
+            </button>
+          </div>
         </div>
         <button className={classes.submit} type="submit">
           Send

@@ -1,13 +1,31 @@
 import React from "react";
 import classes from "./Post.module.scss";
-import { IPost } from "../../../models";
+import { IPost, ILoggedUser, IState } from "../../../models";
 import { format } from "date-fns";
+import GetPosts from "../../../services/service";
+import { connect } from "react-redux";
+import * as actions from "../../../actions";
 
 interface PostProps {
   post: IPost;
+  loggedInUser?: ILoggedUser;
+  slug: string;
 }
 
 function Post(props: PostProps) {
+  let getPosts = new GetPosts();
+
+  let likeArticle = (token: any, slug: any) => {
+    getPosts.likePost(token, slug);
+    console.log(token);
+    console.log("liked!");
+  };
+
+  let dislikeArticle = (token: any, slug: any) => {
+    getPosts.dislikePost(token, slug);
+    console.log("disliked!");
+  };
+
   const mapTags = (tags: string[]) => {
     return tags.slice(0, 3).map((tag) => {
       if (tag) {
@@ -28,7 +46,11 @@ function Post(props: PostProps) {
         <div className={classes["header-info"]}>
           <div className={classes.heading}>
             <div className={classes.name}>{props.post.title.slice(0, 44)}</div>
-            <button className={classes.likes}>
+            <button
+              className={classes.likes}
+              onClick={() =>
+                likeArticle(props.loggedInUser?.token, props.slug)
+              }>
               {props.post.favoritesCount}
             </button>
           </div>
@@ -52,4 +74,10 @@ function Post(props: PostProps) {
   );
 }
 
-export default Post;
+const mapStateToProps = (state: IState) => {
+  return {
+    loggedInUser: state.loggedInUser,
+  };
+};
+
+export default connect(mapStateToProps, actions)(Post);

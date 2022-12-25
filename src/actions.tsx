@@ -67,7 +67,7 @@ export const loginUser = (
   obj: {
     user: { email: string; password: string };
   },
-  cb: any
+  cb?: any
 ) => {
   return (dispatch: any) => {
     {

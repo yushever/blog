@@ -26,6 +26,7 @@ type ProfileForm = {
 function Profile(props: ProfileProps) {
   // let getPosts = new GetPosts();
   const navigate = useNavigate();
+  var loggedUser = JSON.parse(localStorage.getItem("user") || "{}");
 
   const {
     register,
@@ -37,15 +38,16 @@ function Profile(props: ProfileProps) {
       username: props.loggedInUser?.username,
       email: props.loggedInUser?.email,
       password: props.loggedInUser?.password,
+      avatar: props.loggedInUser?.image,
     },
     mode: "onBlur",
   });
 
   const [user, setUser] = useState({
-    username: "",
-    email: "",
+    username: props.loggedInUser?.username,
+    email: props.loggedInUser?.email,
     password: "",
-    avatar: "",
+    avatar: props.loggedInUser?.image,
   });
 
   function handleChange(e: any) {
@@ -63,7 +65,7 @@ function Profile(props: ProfileProps) {
     };
     props.editUser({ user: edittingUser }, props.loggedInUser?.token as string);
     console.log("You clicked save", { user }, props.loggedInUser?.token);
-    reset();
+    // reset();
   }
 
   return (

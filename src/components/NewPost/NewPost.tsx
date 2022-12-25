@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 interface NewPostProps {
   loggedInUser?: ILoggedUser;
+  getPosts: (token: string) => void;
 }
 
 type NewPostForm = {
@@ -67,6 +68,8 @@ function NewPost(props: NewPostProps) {
     );
   });
 
+  console.log(tags);
+
   function handleChange(e: any) {
     const { name, value } = e.target;
     setPost((post) => ({ ...post, [name]: value }));
@@ -76,6 +79,7 @@ function NewPost(props: NewPostProps) {
     let newArr: string[] = fields
       .filter((el) => el.value.length > 0)
       .map((el) => el.value);
+    console.log(newArr);
 
     let newPost: INewPost = {
       title: post.title,
@@ -88,6 +92,7 @@ function NewPost(props: NewPostProps) {
       .then((res) => {
         if (res.status === 200) {
           toast.success("The post was successfully created.");
+          props.getPosts(props.loggedInUser?.token as string);
           navigate("/posts");
         }
       })
@@ -185,12 +190,14 @@ function NewPost(props: NewPostProps) {
               className={classes.add}
               onClick={(e) => {
                 e.preventDefault();
+                console.log(fields);
                 append({ value: "" });
               }}>
               Add tag
             </button>
           </div>
         </div>
+
         <button className={classes.submit} type="submit">
           Send
         </button>

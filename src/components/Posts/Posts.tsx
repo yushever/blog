@@ -21,6 +21,9 @@ interface PostsProps {
 }
 
 function Posts(props: PostsProps) {
+  // window.location.reload();
+  // history.go();
+
   let el: IPost[] = props.posts;
 
   let elements = el.map((post: IPost) => {

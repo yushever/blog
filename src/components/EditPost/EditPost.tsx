@@ -3,22 +3,23 @@ import classes from "./EditPost.module.scss";
 import GetPosts from "../../services/service";
 import { INewPost, IPost, ILoggedUser, IState, IEditPost } from "../../models";
 import { useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ta } from "date-fns/locale";
 
 interface EditPostProps {
   loggedInUser?: ILoggedUser;
+  getPosts: (token: string) => void;
 }
 
 type EditPostForm = {
   title: string;
   description: string;
-  text: string;
-  tag1?: string;
-  tag2?: string;
+  body: string;
+  tagList: { value: string }[];
 };
 
 function EditPost(props: EditPostProps) {
@@ -30,6 +31,7 @@ function EditPost(props: EditPostProps) {
     title: "",
     description: "",
     body: "",
+    tagList: [],
   });
 
   useEffect(() => {
@@ -42,24 +44,52 @@ function EditPost(props: EditPostProps) {
 
   console.log("Post", post);
 
+  let parsedTags = post.tagList.map((el) => ({ value: el }));
+  console.log(post.tagList, parsedTags);
+
   const {
     register,
+    control,
     formState: { errors },
     handleSubmit,
     reset,
   } = useForm<EditPostForm>({
-    // values: {
-    //   title: post.title,
-    //   description: "Title",
-    //   text: post.description,
-    // },
     defaultValues: {
       title: post.title,
       description: post.description,
-      text: post.body,
+      body: post.body,
+      tagList: parsedTags,
     },
     mode: "onBlur",
   });
+
+  const { fields, append, remove, update } = useFieldArray<EditPostForm>({
+    control,
+    name: "tagList",
+  });
+
+  let tags = fields.map((tag, index) => {
+    return (
+      <li>
+        <input
+          key={tag.id}
+          {...register(`tagList.${index}.value`)}
+          className={classes["input-tag"]}
+          type="text"
+          placeholder="Tag"
+        />
+        <button className={classes.delete} onClick={() => remove(index)}>
+          Delete
+        </button>
+      </li>
+    );
+  });
+
+  useEffect(() => {
+    for (let i = 0; i < post.tagList.length; i++) {
+      update(i, { value: post.tagList[i] });
+    }
+  }, [post]);
 
   function handleChange(e: any) {
     const { name, value } = e.target;
@@ -67,10 +97,14 @@ function EditPost(props: EditPostProps) {
   }
 
   function handleForm(e: any) {
+    let newArr: string[] = fields
+      .filter((el) => el.value.length > 0)
+      .map((el) => el.value);
     let edittedPost: IEditPost = {
       title: post.title,
       description: post.description,
       body: post.body,
+      tagList: newArr,
     };
     getPosts
       .editPost(
@@ -80,6 +114,7 @@ function EditPost(props: EditPostProps) {
       )
       .then((res) => {
         toast.success("The post was edited.");
+        props.getPosts(props.loggedInUser?.token as string);
       })
       .catch((e) => toast.error("Something went wrong. Please try again."));
     console.log("You clicked submit");
@@ -120,7 +155,7 @@ function EditPost(props: EditPostProps) {
             Short description<br></br>
             <input
               style={{
-                border: errors.title?.message ? "1px solid #F5222D" : "",
+                border: errors.description?.message ? "1px solid #F5222D" : "",
               }}
               {...register("description", {
                 required: "Description is required",
@@ -145,9 +180,9 @@ function EditPost(props: EditPostProps) {
             Text<br></br>
             <textarea
               style={{
-                border: errors.title?.message ? "1px solid #F5222D" : "",
+                border: errors.body?.message ? "1px solid #F5222D" : "",
               }}
-              {...register("text", {
+              {...register("body", {
                 required: "Text is required",
               })}
               className={classes["input-text"]}
@@ -157,26 +192,29 @@ function EditPost(props: EditPostProps) {
             />
           </label>
           <div style={{ height: 20 }}>
-            {errors?.text && (
+            {errors?.body && (
               <p className={classes["form-error"]}>
-                {errors.text?.message || "Error!"}
+                {errors.body?.message || "Error!"}
               </p>
             )}
           </div>
         </div>
         <div className={classes.tags}>
-          <label>
-            Tags<br></br>
-            <input
-              {...register("tag1")}
-              className={classes["input-tag"]}
-              type="text"
-              placeholder="Tag"
-              // onChange={handleChange}
-            />
-          </label>
-          <button className={classes.delete}>Delete</button>
-          <button className={classes.add}>Add tag</button>
+          <div className={classes["tag-list"]}>
+            Tags
+            <ul>{tags}</ul>
+          </div>
+          <div className={classes["add-tag"]}>
+            <button
+              className={classes.add}
+              onClick={(e) => {
+                e.preventDefault();
+                console.log(fields);
+                append({ value: "" });
+              }}>
+              Add tag
+            </button>
+          </div>
         </div>
 
         <button className={classes.submit} type="submit">

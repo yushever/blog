@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 interface OpenedPostProps {
   loggedInUser?: ILoggedUser;
-  // slug: string;
+  getPosts: (token: string) => void;
 }
 
 function OpenedPost(props: OpenedPostProps) {
@@ -46,6 +46,7 @@ function OpenedPost(props: OpenedPostProps) {
       .deletePost(token, slug)
       .then((res) => {
         toast.success("The post was deleted.");
+        props.getPosts(props.loggedInUser?.token as string);
         navigate("/posts");
       })
       .catch((e) => toast.error("Something went wrong. Please try again."));

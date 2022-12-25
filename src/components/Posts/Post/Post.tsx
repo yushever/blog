@@ -51,7 +51,9 @@ function Post(props: PostProps) {
               className={`${
                 props.post.favorited ? classes.liked : classes.likes
               }`}
-              onClick={() => {
+              onClick={(e) => {
+                // e.stopPropagation();
+                e.preventDefault();
                 if (!props.post.favorited) {
                   props.like(
                     props.loggedInUser?.token as string,

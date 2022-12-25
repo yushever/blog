@@ -1,13 +1,15 @@
-import { useState } from "react";
-import classes from "./NewPost.module.scss";
-import GetPosts from "../../services/service";
-import { INewPost, ILoggedUser, IState } from "../../models";
-import { useNavigate } from "react-router-dom";
-import { useForm, useFieldArray } from "react-hook-form";
-import { connect } from "react-redux";
-import * as actions from "../../actions";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useForm, useFieldArray } from 'react-hook-form';
+import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
+
+import * as actions from '../../actions';
+import { INewPost, ILoggedUser, IState } from '../../models';
+import GetPosts from '../../services/service';
+
+import classes from './NewPost.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface NewPostProps {
   loggedInUser?: ILoggedUser;
@@ -27,9 +29,9 @@ function NewPost(props: NewPostProps) {
   const navigate = useNavigate();
 
   const [post, setPost] = useState({
-    title: "",
-    description: "",
-    text: "",
+    title: '',
+    description: '',
+    text: '',
   });
 
   const {
@@ -39,24 +41,24 @@ function NewPost(props: NewPostProps) {
     handleSubmit,
     reset,
   } = useForm<NewPostForm>({
-    mode: "onBlur",
+    mode: 'onBlur',
     defaultValues: {
-      tagList: [{ value: "" }],
+      tagList: [{ value: '' }],
     },
   });
 
   const { fields, append, remove } = useFieldArray<NewPostForm>({
     control,
-    name: "tagList",
+    name: 'tagList',
   });
 
   let tags = fields.map((tag, index) => {
     return (
-      <li key={"liKey:" + tag.id}>
+      <li key={'liKey:' + tag.id}>
         <input
           key={tag.id}
           {...register(`tagList.${index}.value`)}
-          className={classes["input-tag"]}
+          className={classes['input-tag']}
           type="text"
           placeholder="Tag"
         />
@@ -69,13 +71,11 @@ function NewPost(props: NewPostProps) {
 
   function handleChange(e: any) {
     const { name, value } = e.target;
-    setPost((post) => ({ ...post, [name]: value }));
+    setPost(() => ({ ...post, [name]: value }));
   }
 
-  function handleForm(e: any) {
-    let newArr: string[] = fields
-      .filter((el) => el.value.length > 0)
-      .map((el) => el.value);
+  function handleForm() {
+    let newArr: string[] = fields.filter((el) => el.value.length > 0).map((el) => el.value);
 
     let newPost: INewPost = {
       title: post.title,
@@ -87,12 +87,12 @@ function NewPost(props: NewPostProps) {
       .createPost({ article: newPost }, props.loggedInUser?.token as string)
       .then((res) => {
         if (res.status === 200) {
-          toast.success("The post was successfully created.");
+          toast.success('The post was successfully created.');
           props.getPosts(props.loggedInUser?.token as string);
-          navigate("/posts");
+          navigate('/posts');
         }
       })
-      .catch((e) => toast.error("Something went wrong. Please try again."));
+      .catch(() => toast.error('Something went wrong. Please try again.'));
     reset();
   }
 
@@ -105,27 +105,23 @@ function NewPost(props: NewPostProps) {
             Title<br></br>
             <input
               style={{
-                border: errors.title?.message ? "1px solid #F5222D" : "",
+                border: errors.title?.message ? '1px solid #F5222D' : '',
               }}
-              {...register("title", {
-                required: "Title is required",
+              {...register('title', {
+                required: 'Title is required',
                 maxLength: {
                   value: 5000,
-                  message: "Title is too long",
+                  message: 'Title is too long',
                 },
               })}
-              className={classes["input-title"]}
+              className={classes['input-title']}
               type="text"
               placeholder="Title"
               onChange={handleChange}
             />
           </label>
           <div style={{ height: 20 }}>
-            {errors?.title && (
-              <p className={classes["form-error"]}>
-                {errors.title?.message || "Error!"}
-              </p>
-            )}
+            {errors?.title && <p className={classes['form-error']}>{errors.title?.message || 'Error!'}</p>}
           </div>
         </div>
         <div className={classes.description}>
@@ -133,23 +129,19 @@ function NewPost(props: NewPostProps) {
             Short description<br></br>
             <input
               style={{
-                border: errors.description?.message ? "1px solid #F5222D" : "",
+                border: errors.description?.message ? '1px solid #F5222D' : '',
               }}
-              {...register("description", {
-                required: "Description is required",
+              {...register('description', {
+                required: 'Description is required',
               })}
-              className={classes["input-description"]}
+              className={classes['input-description']}
               type="text"
               placeholder="Description"
               onChange={handleChange}
             />
           </label>
           <div style={{ height: 20 }}>
-            {errors?.description && (
-              <p className={classes["form-error"]}>
-                {errors.description?.message || "Error!"}
-              </p>
-            )}
+            {errors?.description && <p className={classes['form-error']}>{errors.description?.message || 'Error!'}</p>}
           </div>
         </div>
         <div className={classes.text}>
@@ -157,36 +149,33 @@ function NewPost(props: NewPostProps) {
             Text<br></br>
             <textarea
               style={{
-                border: errors.text?.message ? "1px solid #F5222D" : "",
+                border: errors.text?.message ? '1px solid #F5222D' : '',
               }}
-              {...register("text", {
-                required: "Text is required",
+              {...register('text', {
+                required: 'Text is required',
               })}
-              className={classes["input-text"]}
+              className={classes['input-text']}
               placeholder="Text"
               onChange={handleChange}
             />
           </label>
           <div style={{ height: 20 }}>
-            {errors?.text && (
-              <p className={classes["form-error"]}>
-                {errors.text?.message || "Error!"}
-              </p>
-            )}
+            {errors?.text && <p className={classes['form-error']}>{errors.text?.message || 'Error!'}</p>}
           </div>
         </div>
         <div className={classes.tags}>
-          <div className={classes["tag-list"]}>
+          <div className={classes['tag-list']}>
             Tags
             <ul>{tags}</ul>
           </div>
-          <div className={classes["add-tag"]}>
+          <div className={classes['add-tag']}>
             <button
               className={classes.add}
               onClick={(e) => {
                 e.preventDefault();
-                append({ value: "" });
-              }}>
+                append({ value: '' });
+              }}
+            >
               Add tag
             </button>
           </div>

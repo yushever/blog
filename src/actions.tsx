@@ -1,16 +1,17 @@
-import GetPosts from "./services/service";
-import { IEditUser, ILoggedUser } from "./models";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'react-toastify';
+
+import GetPosts from './services/service';
+import { IEditUser, ILoggedUser } from './models';
+import 'react-toastify/dist/ReactToastify.css';
 
 const postsService = new GetPosts();
-export const SET = "SET";
-export const LOGIN = "LOGIN";
-export const LOGOUT = "LOGOUT";
-export const EDIT_USER = "EDIT_USER";
-export const LIKE = "LIKE";
-export const UNLIKE = "UNLIKE";
-export const ERROR = "ERROR";
+export const SET = 'SET';
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const EDIT_USER = 'EDIT_USER';
+export const LIKE = 'LIKE';
+export const UNLIKE = 'UNLIKE';
+export const ERROR = 'ERROR';
 
 export const setPosts = (resObj: { articles: []; articlesCount: number }) => {
   return {
@@ -30,7 +31,7 @@ export const getPosts = (token?: string) => {
         .then((res) => {
           dispatch(setPosts(res));
         })
-        .catch((e) => {
+        .catch(() => {
           dispatch({ type: ERROR });
         });
     }
@@ -45,7 +46,7 @@ export const getPostsByPage = (page: number, token?: string) => {
         .then((res) => {
           dispatch(setPosts(res));
         })
-        .catch((e) => {
+        .catch(() => {
           dispatch({ type: ERROR });
         });
     }
@@ -72,20 +73,20 @@ export const loginUser = (
       postsService
         .loginUser(obj)
         .then((res) => {
-          toast.success("Welcome to the awesome blog!");
-          localStorage.setItem("user", JSON.stringify(res));
+          toast.success('Welcome to the awesome blog!');
+          localStorage.setItem('user', JSON.stringify(res));
           dispatch(login(res));
           cb();
         })
-        .catch((e) => {
-          toast.error("Something went wrong. Please try again.");
+        .catch(() => {
+          toast.error('Something went wrong. Please try again.');
         });
     }
   };
 };
 
 export const logout = () => {
-  localStorage.removeItem("user");
+  localStorage.removeItem('user');
   return {
     type: LOGOUT,
   };
@@ -106,21 +107,21 @@ export const editUser = (obj: { user: IEditUser }, token: string) => {
       postsService
         .editUser(obj, token)
         .then((res) => {
-          toast.success("Your profile was successfully updated.");
-          localStorage.setItem("user", JSON.stringify(res));
+          toast.success('Your profile was successfully updated.');
+          localStorage.setItem('user', JSON.stringify(res));
           dispatch(edit(res));
         })
-        .catch((e) => {
-          toast.error("Something went wrong. Please try again.");
+        .catch(() => {
+          toast.error('Something went wrong. Please try again.');
         });
     }
   };
 };
 
-export const like = (token: string, slug: string, like: boolean) => {
+export const like = (token: string, slug: string, likes: boolean) => {
   return (dispatch: any) => {
-    if (like) {
-      postsService.likePost(token, slug).then((res) =>
+    if (likes) {
+      postsService.likePost(token, slug).then(() =>
         dispatch({
           type: LIKE,
           payload: {
@@ -129,7 +130,7 @@ export const like = (token: string, slug: string, like: boolean) => {
         })
       );
     } else {
-      postsService.dislikePost(token, slug).then((res) =>
+      postsService.dislikePost(token, slug).then(() =>
         dispatch({
           type: UNLIKE,
           payload: {

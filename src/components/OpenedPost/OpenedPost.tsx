@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
-import classes from "./OpenedPost.module.scss";
-import GetPosts from "../../services/service";
-import { IState, ILoggedUser } from "../../models";
-import { format } from "date-fns";
-import ReactMarkdown from "react-markdown";
-import { useParams, useNavigate } from "react-router-dom";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import * as actions from "../../actions";
-import { Popconfirm, Alert } from "antd";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
+import ReactMarkdown from 'react-markdown';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Popconfirm, Alert } from 'antd';
+import { ToastContainer, toast } from 'react-toastify';
+
+import * as actions from '../../actions';
+import { IState, ILoggedUser } from '../../models';
+import GetPosts from '../../services/service';
+
+import classes from './OpenedPost.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface OpenedPostProps {
   loggedInUser?: ILoggedUser;
@@ -23,7 +24,6 @@ function OpenedPost(props: OpenedPostProps) {
   const navigate = useNavigate();
   const [post, setPost] = useState<any>({});
   const [error, setError] = useState(false);
-  const [modalActive, setModalActive] = useState(false);
 
   useEffect(() => {
     getPosts
@@ -32,24 +32,24 @@ function OpenedPost(props: OpenedPostProps) {
         setError(false);
         setPost(res);
       })
-      .catch((e) => {
+      .catch(() => {
         setError(true);
       });
   }, [slug]);
 
-  let deleteArticle = (token: any, slug: any) => {
+  let deleteArticle = (token: string, postSlug: string) => {
     getPosts
-      .deletePost(token, slug)
-      .then((res) => {
-        toast.success("The post was deleted.");
+      .deletePost(token, postSlug)
+      .then(() => {
+        toast.success('The post was deleted.');
         props.getPosts(props.loggedInUser?.token as string);
-        navigate("/posts");
+        navigate('/posts');
       })
-      .catch((e) => toast.error("Something went wrong. Please try again."));
+      .catch(() => toast.error('Something went wrong. Please try again.'));
   };
 
-  let likeArticle = (token: any, slug: any) => {
-    getPosts.likePost(token, slug);
+  let likeArticle = (token: string, postSlug: string) => {
+    getPosts.likePost(token, postSlug);
     let updatedPost = {
       ...post,
       favorited: true,
@@ -58,8 +58,8 @@ function OpenedPost(props: OpenedPostProps) {
     setPost(updatedPost);
   };
 
-  let dislikeArticle = (token: any, slug: any) => {
-    getPosts.dislikePost(token, slug);
+  let dislikeArticle = (token: string, postSlug: string) => {
+    getPosts.dislikePost(token, postSlug);
     let updatedPost = {
       ...post,
       favorited: false,
@@ -68,9 +68,7 @@ function OpenedPost(props: OpenedPostProps) {
     setPost(updatedPost);
   };
 
-  let errorAlert = error ? (
-    <Alert message="Something went wrong" type="error" />
-  ) : null;
+  let errorAlert = error ? <Alert message="Something went wrong" type="error" /> : null;
 
   if (error) {
     return <div className={classes.alert}>{errorAlert}</div>;
@@ -80,7 +78,7 @@ function OpenedPost(props: OpenedPostProps) {
     return null;
   }
 
-  const publishDate = format(new Date(post.createdAt), "PPP");
+  const publishDate = format(new Date(post.createdAt), 'PPP');
 
   const mapTags = (tags: string[]) => {
     return tags.map((tag) => {
@@ -95,7 +93,7 @@ function OpenedPost(props: OpenedPostProps) {
   return (
     <div className={classes.container}>
       <div className={classes.header}>
-        <div className={classes["header-info"]}>
+        <div className={classes['header-info']}>
           <div className={classes.heading}>
             <h2 className={classes.name}>{post.title}</h2>
             <button
@@ -103,45 +101,38 @@ function OpenedPost(props: OpenedPostProps) {
               className={`${post.favorited ? classes.liked : classes.likes}`}
               onClick={() => {
                 if (post.favorited) {
-                  dislikeArticle(props.loggedInUser?.token, slug);
+                  dislikeArticle(props.loggedInUser?.token as string, slug as string);
                 } else {
-                  likeArticle(props.loggedInUser?.token, slug);
+                  likeArticle(props.loggedInUser?.token as string, slug as string);
                 }
-              }}>
+              }}
+            >
               {post.favoritesCount}
             </button>
           </div>
           <div className={classes.tags}>{mapTags(post.tagList)}</div>
         </div>
-        <div className={classes["header-user"]}>
-          <div className={classes["user-info"]}>
+        <div className={classes['header-user']}>
+          <div className={classes['user-info']}>
             <div className={classes.user}>{post.author.username}</div>
             <div className={classes.data}>{publishDate}</div>
           </div>
-          <div className={classes["user-img"]}>
-            <img
-              className={classes.avatar}
-              src={post.author.image}
-              alt="avatar"></img>
+          <div className={classes['user-img']}>
+            <img className={classes.avatar} src={post.author.image} alt="avatar"></img>
           </div>
         </div>
       </div>
       <div className={classes.wrapper}>
         <div className={classes.text}>{post.description}</div>
-        {props.loggedInUser &&
-        props.loggedInUser.username === post.author.username ? (
+        {props.loggedInUser && props.loggedInUser.username === post.author.username ? (
           <div className={classes.buttons}>
             <Popconfirm
-              title={
-                <div className={classes.popup}>
-                  Are you sure to delete this article?
-                </div>
-              }
-              onConfirm={() => deleteArticle(props.loggedInUser?.token, slug)}
-              onCancel={() => setModalActive(false)}
-              placement={"rightTop"}
+              title={<div className={classes.popup}>Are you sure to delete this article?</div>}
+              onConfirm={() => deleteArticle(props.loggedInUser?.token as string, slug as string)}
+              placement={'rightTop'}
               okText="Yes"
-              cancelText="No">
+              cancelText="No"
+            >
               <button className={classes.delete}>Delete</button>
             </Popconfirm>
 
@@ -152,7 +143,7 @@ function OpenedPost(props: OpenedPostProps) {
           </div>
         ) : null}
       </div>
-      <div className={classes["main-text"]}>
+      <div className={classes['main-text']}>
         <ReactMarkdown>{post.body}</ReactMarkdown>
       </div>
     </div>

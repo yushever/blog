@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/App/App';
 import { Provider } from 'react-redux';
 import { legacy_createStore as createStore, applyMiddleware, compose } from 'redux';
-import reducer from './reducer';
 import reduxThunk from 'redux-thunk';
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+import reducer from './reducer';
+import App from './components/App/App';
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 function loggerMiddleware() {
   return function (next: any) {
@@ -29,4 +28,3 @@ root.render(
     </Provider>
   </BrowserRouter>
 );
-

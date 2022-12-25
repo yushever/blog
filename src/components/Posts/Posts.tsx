@@ -1,11 +1,12 @@
-import "./Posts.module.scss";
-import Post from "./Post/Post";
-import { IPost, IState, ILoggedUser } from "../../models";
-import * as actions from "../../actions";
-import { connect } from "react-redux";
-import { Pagination, Spin, Alert } from "antd";
-import classes from "./Posts.module.scss";
-import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { Pagination, Spin, Alert } from 'antd';
+import { Link } from 'react-router-dom';
+
+import * as actions from '../../actions';
+import { IPost, IState, ILoggedUser } from '../../models';
+
+import Post from './Post/Post';
+import classes from './Posts.module.scss';
 
 interface PostsProps {
   getPostsByPage: (page: number, token?: string) => void;
@@ -27,9 +28,7 @@ function Posts(props: PostsProps) {
       </Link>
     );
   });
-  let error = props.error ? (
-    <Alert message="Something went wrong" type="error" />
-  ) : null;
+  let error = props.error ? <Alert message="Something went wrong" type="error" /> : null;
   let loader = props.loading ? <Spin className={classes.spinner} /> : null;
   let pagination =
     !props.loading && !props.error ? (

@@ -1,7 +1,8 @@
-import { useLocation, Navigate } from "react-router-dom";
-import { ILoggedUser, IState } from "../../models";
-import { connect } from "react-redux";
-import * as actions from "../../actions";
+import { useLocation, Navigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { ILoggedUser, IState } from '../../models';
+import * as actions from '../../actions';
 
 interface RequireAuthProps {
   loggedInUser?: ILoggedUser;

@@ -1,20 +1,21 @@
-import "./App.module.scss";
-import Header from "../Header/Header";
-import Login from "../Login/Login";
-import Signup from "../Signup/Signup";
-import Profile from "../Profile/Profile";
-import Posts from "../Posts/Posts";
-import { connect } from "react-redux";
-import * as actions from "../../actions";
-import classes from "./App.module.scss";
-import OpenedPost from "../OpenedPost/OpenedPost";
-import { Routes, Route } from "react-router-dom";
-import { ILoggedUser, IState } from "../../models";
-import NewPost from "../NewPost/NewPost";
-import EditPost from "../EditPost/EditPost";
-import RequireAuth from "../hoc/RequireAuth";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { connect } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+
+import Header from '../Header/Header';
+import Login from '../Login/Login';
+import Signup from '../Signup/Signup';
+import Profile from '../Profile/Profile';
+import Posts from '../Posts/Posts';
+import * as actions from '../../actions';
+import OpenedPost from '../OpenedPost/OpenedPost';
+import { ILoggedUser, IState } from '../../models';
+import NewPost from '../NewPost/NewPost';
+import EditPost from '../EditPost/EditPost';
+import RequireAuth from '../hoc/RequireAuth';
+
+import classes from './App.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface AppProps {
   getPosts: (token?: string) => void;
@@ -24,7 +25,7 @@ interface AppProps {
 
 function App(props: AppProps) {
   if (!props.loggedInUser) {
-    let loggedUser = localStorage.getItem("user");
+    let loggedUser = localStorage.getItem('user');
     if (loggedUser) {
       props.login(JSON.parse(loggedUser));
     }

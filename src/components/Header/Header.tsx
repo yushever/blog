@@ -1,8 +1,10 @@
-import classes from "./Header.module.scss";
-import { Link } from "react-router-dom";
-import { IState, ILoggedUser } from "../../models";
-import { connect } from "react-redux";
-import * as actions from "../../actions";
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { IState, ILoggedUser } from '../../models';
+import * as actions from '../../actions';
+
+import classes from './Header.module.scss';
 
 interface HeaderProps {
   loggedInUser?: ILoggedUser;
@@ -24,14 +26,9 @@ function Header(props: HeaderProps) {
           </button>
           <Link className={classes.link} to="/profile">
             <div className={classes.user}>
-              <div className={classes.username}>
-                {props.loggedInUser.username}
-              </div>
-              <div className={classes["user-img"]}>
-                <img
-                  className={classes.avatar}
-                  src={props.loggedInUser.image}
-                  alt="avatar"></img>
+              <div className={classes.username}>{props.loggedInUser.username}</div>
+              <div className={classes['user-img']}>
+                <img className={classes.avatar} src={props.loggedInUser.image} alt="avatar"></img>
               </div>
             </div>
           </Link>

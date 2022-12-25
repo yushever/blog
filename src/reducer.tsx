@@ -1,6 +1,7 @@
-import { Reducer } from "redux";
-import * as actions from "./actions";
-import { IState, IPost } from "./models";
+import { Reducer } from 'redux';
+
+import * as actions from './actions';
+import { IState, IPost } from './models';
 
 const reducer: Reducer = (
   state: IState = {
@@ -14,7 +15,7 @@ const reducer: Reducer = (
   action: { type?: string; payload?: any } = {}
 ) => {
   switch (action.type) {
-    case actions.SET:
+    case actions.SET: {
       return {
         ...state,
         posts: action.payload.posts,
@@ -22,65 +23,60 @@ const reducer: Reducer = (
         loading: false,
         error: false,
       };
-    case actions.LOGIN:
+    }
+    case actions.LOGIN: {
       return {
         ...state,
         loggedInUser: action.payload.user,
       };
-    case actions.LOGOUT:
+    }
+    case actions.LOGOUT: {
       return {
         ...state,
         loggedInUser: undefined,
       };
-    case actions.EDIT_USER:
+    }
+    case actions.EDIT_USER: {
       return {
         ...state,
         loggedInUser: action.payload?.user,
       };
-    case actions.LIKE:
-      const id = state.posts.findIndex(
-        (el) => el["slug"] === action.payload.slug
-      );
+    }
+    case actions.LIKE: {
+      const id = state.posts.findIndex((el: IPost) => el.slug === action.payload.slug);
       let oldPost: IPost = state.posts[id];
       let newPost = {
         ...oldPost,
         favorited: true,
         favoritesCount: oldPost.favoritesCount + 1,
       };
-      let newPosts = [
-        ...state.posts.slice(0, id),
-        newPost,
-        ...state.posts.slice(id + 1),
-      ];
+      let newPosts = [...state.posts.slice(0, id), newPost, ...state.posts.slice(id + 1)];
       return {
         ...state,
         posts: newPosts,
       };
-    case actions.UNLIKE:
-      const idx = state.posts.findIndex(
-        (el) => el["slug"] === action.payload.slug
-      );
+    }
+    case actions.UNLIKE: {
+      const idx = state.posts.findIndex((el: IPost) => el.slug === action.payload.slug);
       let oldArticle: IPost = state.posts[idx];
       let newArticle = {
         ...oldArticle,
         favorited: false,
         favoritesCount: oldArticle.favoritesCount - 1,
       };
-      let newArticles = [
-        ...state.posts.slice(0, idx),
-        newArticle,
-        ...state.posts.slice(idx + 1),
-      ];
+      let newArticles = [...state.posts.slice(0, idx), newArticle, ...state.posts.slice(idx + 1)];
       return {
         ...state,
         posts: newArticles,
       };
-    case actions.ERROR:
+    }
+    case actions.ERROR: {
       return {
         ...state,
         error: true,
         loading: false,
       };
+    }
     default:
       return state;
   }

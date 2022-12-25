@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./Posts.module.scss";
 import Post from "./Post/Post";
 import { IPost, IState, ILoggedUser } from "../../models";
@@ -7,8 +6,6 @@ import { connect } from "react-redux";
 import { Pagination, Spin, Alert } from "antd";
 import classes from "./Posts.module.scss";
 import { Link } from "react-router-dom";
-
-// import 'antd/dist/antd.css';
 
 interface PostsProps {
   getPostsByPage: (page: number, token?: string) => void;
@@ -21,9 +18,6 @@ interface PostsProps {
 }
 
 function Posts(props: PostsProps) {
-  // window.location.reload();
-  // history.go();
-
   let el: IPost[] = props.posts;
 
   let elements = el.map((post: IPost) => {
@@ -31,9 +25,6 @@ function Posts(props: PostsProps) {
       <Link key={post.slug} to={`/posts/${post.slug}`}>
         <Post post={post} slug={post.slug} />
       </Link>
-      // <div key={post.slug}>
-      //   <Post post={post} slug={post.slug} />
-      // </div>
     );
   });
   let error = props.error ? (

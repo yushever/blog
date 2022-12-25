@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import classes from "./NewPost.module.scss";
 import GetPosts from "../../services/service";
-import { INewPost, IPost, ILoggedUser, IState } from "../../models";
-import ReactMarkdown from "react-markdown";
-import { useParams, useNavigate } from "react-router-dom";
+import { INewPost, ILoggedUser, IState } from "../../models";
+import { useNavigate } from "react-router-dom";
 import { useForm, useFieldArray } from "react-hook-form";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface NewPostProps {
@@ -68,8 +67,6 @@ function NewPost(props: NewPostProps) {
     );
   });
 
-  console.log(tags);
-
   function handleChange(e: any) {
     const { name, value } = e.target;
     setPost((post) => ({ ...post, [name]: value }));
@@ -79,7 +76,6 @@ function NewPost(props: NewPostProps) {
     let newArr: string[] = fields
       .filter((el) => el.value.length > 0)
       .map((el) => el.value);
-    console.log(newArr);
 
     let newPost: INewPost = {
       title: post.title,
@@ -97,7 +93,6 @@ function NewPost(props: NewPostProps) {
         }
       })
       .catch((e) => toast.error("Something went wrong. Please try again."));
-    console.log("You clicked submit", newPost, props.loggedInUser?.token);
     reset();
   }
 
@@ -190,7 +185,6 @@ function NewPost(props: NewPostProps) {
               className={classes.add}
               onClick={(e) => {
                 e.preventDefault();
-                console.log(fields);
                 append({ value: "" });
               }}>
               Add tag

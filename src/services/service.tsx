@@ -1,11 +1,5 @@
 import axios from "axios";
-import {
-  IRegisterUser,
-  ILoggedUser,
-  IEditUser,
-  INewPost,
-  IEditPost,
-} from "../models";
+import { IRegisterUser, IEditUser, INewPost, IEditPost } from "../models";
 export default class GetPosts {
   async getAllPosts(token?: string) {
     let header = token ? { headers: { Authorization: `Token ${token}` } } : {};
@@ -13,7 +7,6 @@ export default class GetPosts {
       "https://blog.kata.academy/api/articles?limit=5",
       header
     );
-    console.log(res.data);
     return res.data;
   }
   async getMorePosts(page: number, token?: string) {
@@ -34,7 +27,6 @@ export default class GetPosts {
   }
   async registerUser(obj: { user: IRegisterUser }) {
     let newUser = await axios.post("https://blog.kata.academy/api/users", obj);
-    console.log("Signup", newUser);
     return newUser;
   }
   async loginUser(obj: { user: { email: string; password: string } }) {
@@ -42,7 +34,6 @@ export default class GetPosts {
       "https://blog.kata.academy/api/users/login",
       obj
     );
-    console.log("Login", newUser.data.user);
     return newUser.data.user;
   }
   async editUser(obj: { user: IEditUser }, token: string) {
@@ -55,7 +46,6 @@ export default class GetPosts {
         },
       }
     );
-    console.log("Editted:", edittedUser);
     return edittedUser.data.user;
   }
   async createPost(obj: { article: INewPost }, token: string) {
@@ -68,7 +58,6 @@ export default class GetPosts {
         },
       }
     );
-    console.log("New Post", newPost);
     return newPost;
   }
   async editPost(obj: { article: IEditPost }, token: string, slug: string) {
@@ -81,7 +70,6 @@ export default class GetPosts {
         },
       }
     );
-    console.log("EditedPost:", editedPost);
     return editedPost;
   }
   async deletePost(token: string, slug: string) {
@@ -93,11 +81,9 @@ export default class GetPosts {
         },
       }
     );
-    console.log("deletedPost:", deletedPost);
     return deletedPost;
   }
   async likePost(token: string, slug: string) {
-    console.log(token, slug);
     let likedPost = await axios.post(
       `https://blog.kata.academy/api/articles/${slug}/favorite`,
       {},
@@ -107,7 +93,6 @@ export default class GetPosts {
         },
       }
     );
-    console.log("likedPost:", likedPost);
     return likedPost;
   }
   async dislikePost(token: string, slug: string) {
@@ -119,7 +104,6 @@ export default class GetPosts {
         },
       }
     );
-    console.log("dislikedPost:", dislikedPost);
     return dislikedPost;
   }
 }

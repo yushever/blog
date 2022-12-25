@@ -15,7 +15,6 @@ const reducer: Reducer = (
 ) => {
   switch (action.type) {
     case actions.SET:
-      // console.log(action.payload);
       return {
         ...state,
         posts: action.payload.posts,
@@ -24,13 +23,11 @@ const reducer: Reducer = (
         error: false,
       };
     case actions.LOGIN:
-      // console.log(action.payload.user);
       return {
         ...state,
         loggedInUser: action.payload.user,
       };
     case actions.LOGOUT:
-      console.log("Logout completed");
       return {
         ...state,
         loggedInUser: undefined,

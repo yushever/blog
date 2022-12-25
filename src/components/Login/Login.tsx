@@ -1,7 +1,5 @@
-import React from "react";
 import classes from "./Login.module.scss";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import GetPosts from "../../services/service";
 import { useState } from "react";
 import { IState } from "../../models";
 import { connect } from "react-redux";
@@ -48,9 +46,7 @@ function Login(props: LoginProps) {
   }
 
   function handleForm(e: any) {
-    // e.preventDefault();
     props.loginUser({ user }, () => navigate(fromPage, { replace: true }));
-    console.log("You clicked submit", user);
     reset();
   }
 
@@ -77,7 +73,6 @@ function Login(props: LoginProps) {
               type="text"
               placeholder="Email address"
               onChange={handleChange}
-              // value={user.email}
             />
           </label>
           <div style={{ height: 20 }}>
@@ -97,7 +92,6 @@ function Login(props: LoginProps) {
               name="password"
               placeholder="Password"
               onChange={handleChange}
-              // value={user.password}
             />
           </label>
         </div>

@@ -1,6 +1,6 @@
 import GetPosts from "./services/service";
 import { IEditUser, ILoggedUser } from "./models";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const postsService = new GetPosts();
@@ -44,8 +44,6 @@ export const getPostsByPage = (page: number, token?: string) => {
         .getMorePosts(page, token)
         .then((res) => {
           dispatch(setPosts(res));
-          // console.log(res);
-          // showPosts(dispatch);
         })
         .catch((e) => {
           dispatch({ type: ERROR });
@@ -109,7 +107,6 @@ export const editUser = (obj: { user: IEditUser }, token: string) => {
         .editUser(obj, token)
         .then((res) => {
           toast.success("Your profile was successfully updated.");
-          console.log("editUser", res);
           localStorage.setItem("user", JSON.stringify(res));
           dispatch(edit(res));
         })

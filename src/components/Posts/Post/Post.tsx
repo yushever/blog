@@ -1,8 +1,6 @@
-import React, { useState } from "react";
 import classes from "./Post.module.scss";
 import { IPost, ILoggedUser, IState } from "../../../models";
 import { format } from "date-fns";
-import GetPosts from "../../../services/service";
 import { connect } from "react-redux";
 import * as actions from "../../../actions";
 
@@ -14,18 +12,6 @@ interface PostProps {
 }
 
 function Post(props: PostProps) {
-  // let getPosts = new GetPosts();
-
-  // let likeArticle = (token: any, slug: any) => {
-  //   getPosts.likePost(token, slug);
-  //   console.log("liked!");
-  // };
-
-  // let dislikeArticle = (token: any, slug: any) => {
-  //   getPosts.dislikePost(token, slug);
-  //   console.log("disliked!");
-  // };
-
   const mapTags = (tags: string[]) => {
     return tags.slice(0, 3).map((tag) => {
       if (tag) {
@@ -52,7 +38,6 @@ function Post(props: PostProps) {
                 props.post.favorited ? classes.liked : classes.likes
               }`}
               onClick={(e) => {
-                // e.stopPropagation();
                 e.preventDefault();
                 if (!props.post.favorited) {
                   props.like(

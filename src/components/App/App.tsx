@@ -4,8 +4,6 @@ import Login from "../Login/Login";
 import Signup from "../Signup/Signup";
 import Profile from "../Profile/Profile";
 import Posts from "../Posts/Posts";
-import GetPosts from "../../services/service";
-import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import classes from "./App.module.scss";
@@ -15,8 +13,7 @@ import { ILoggedUser, IState } from "../../models";
 import NewPost from "../NewPost/NewPost";
 import EditPost from "../EditPost/EditPost";
 import RequireAuth from "../hoc/RequireAuth";
-import { Spin } from "antd";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface AppProps {

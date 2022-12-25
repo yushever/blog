@@ -1,4 +1,3 @@
-import React from "react";
 import classes from "./Header.module.scss";
 import { Link } from "react-router-dom";
 import { IState, ILoggedUser } from "../../models";

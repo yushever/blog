@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "./OpenedPost.module.scss";
 import GetPosts from "../../services/service";
 import { IState, ILoggedUser } from "../../models";
@@ -8,7 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as actions from "../../actions";
-import { message, Popconfirm, Alert } from "antd";
+import { Popconfirm, Alert } from "antd";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -29,17 +29,13 @@ function OpenedPost(props: OpenedPostProps) {
     getPosts
       .getOnePost(slug as string, props.loggedInUser?.token)
       .then((res) => {
-        console.log("UseEffect:", res);
         setError(false);
         setPost(res);
       })
       .catch((e) => {
-        console.log("ERROR", e, error);
         setError(true);
       });
   }, [slug]);
-
-  console.log("Post", post);
 
   let deleteArticle = (token: any, slug: any) => {
     getPosts
@@ -60,8 +56,6 @@ function OpenedPost(props: OpenedPostProps) {
       favoritesCount: post.favoritesCount + 1,
     };
     setPost(updatedPost);
-    console.log(post, updatedPost);
-    console.log("liked!");
   };
 
   let dislikeArticle = (token: any, slug: any) => {
@@ -72,7 +66,6 @@ function OpenedPost(props: OpenedPostProps) {
       favoritesCount: post.favoritesCount - 1,
     };
     setPost(updatedPost);
-    console.log("disliked!");
   };
 
   let errorAlert = error ? (
@@ -84,7 +77,6 @@ function OpenedPost(props: OpenedPostProps) {
   }
 
   if (Object.keys(post).length === 0 || post === undefined) {
-    console.log("IF", post);
     return null;
   }
 
@@ -99,8 +91,6 @@ function OpenedPost(props: OpenedPostProps) {
       );
     });
   };
-
-  console.log("NOW ERROR IS ", error);
 
   return (
     <div className={classes.container}>

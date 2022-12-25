@@ -1,13 +1,13 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import classes from "./Signup.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
-import { IPost, IState, IRegisterUser } from "../../models";
+import { IState, IRegisterUser } from "../../models";
 import { useState } from "react";
 import GetPosts from "../../services/service";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface SignupProps {}
@@ -94,7 +94,6 @@ function Signup(props: SignupProps) {
               type="text"
               placeholder="Username"
               onChange={handleChange}
-              // value={user.username}
             />
           </label>
           <div style={{ height: 20 }}>
@@ -122,10 +121,8 @@ function Signup(props: SignupProps) {
               })}
               className={classes["input-line"]}
               type="text"
-              // name="email"
               placeholder="Email address"
               onChange={handleChange}
-              // value={user.email}
             />
           </label>
           <div style={{ height: 20 }}>
@@ -158,7 +155,6 @@ function Signup(props: SignupProps) {
               type="password"
               placeholder="Password"
               onChange={handleChange}
-              // value={user.password1}
             />
           </label>
           <div style={{ height: 20 }}>
@@ -191,7 +187,6 @@ function Signup(props: SignupProps) {
               })}
               className={classes["input-line"]}
               type="password"
-              // name="password2"
               placeholder="Password"
             />
           </label>

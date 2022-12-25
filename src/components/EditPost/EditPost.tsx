@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "./EditPost.module.scss";
 import GetPosts from "../../services/service";
-import { INewPost, IPost, ILoggedUser, IState, IEditPost } from "../../models";
+import { ILoggedUser, IState, IEditPost } from "../../models";
 import { useParams } from "react-router-dom";
 import { useForm, useFieldArray } from "react-hook-form";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ta } from "date-fns/locale";
 
 interface EditPostProps {
   loggedInUser?: ILoggedUser;
@@ -25,7 +24,6 @@ type EditPostForm = {
 function EditPost(props: EditPostProps) {
   let getPosts = new GetPosts();
   const { slug } = useParams();
-  // const [post, setPost] = useState<any>({});
 
   const [post, setPost] = useState({
     title: "",
@@ -36,16 +34,11 @@ function EditPost(props: EditPostProps) {
 
   useEffect(() => {
     getPosts.getOnePost(slug as string).then((res) => {
-      console.log("UseEffect:", res);
       setPost(res);
-      console.log("Post", post);
     });
   }, [slug]);
 
-  console.log("Post", post);
-
   let parsedTags = post.tagList.map((el) => ({ value: el }));
-  console.log(post.tagList, parsedTags);
 
   const {
     register,
@@ -117,8 +110,6 @@ function EditPost(props: EditPostProps) {
         props.getPosts(props.loggedInUser?.token as string);
       })
       .catch((e) => toast.error("Something went wrong. Please try again."));
-    console.log("You clicked submit");
-    // reset();
   }
 
   return (
@@ -209,7 +200,6 @@ function EditPost(props: EditPostProps) {
               className={classes.add}
               onClick={(e) => {
                 e.preventDefault();
-                console.log(fields);
                 append({ value: "" });
               }}>
               Add tag

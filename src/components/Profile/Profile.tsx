@@ -1,15 +1,12 @@
 import React, { useRef } from "react";
 import classes from "./Profile.module.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
-import { IPost, IState, IRegisterUser, IEditUser } from "../../models";
+import { IState, IEditUser } from "../../models";
 import { useState } from "react";
-import GetPosts from "../../services/service";
 import { useForm } from "react-hook-form";
 import { ILoggedUser } from "../../models";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 interface ProfileProps {
   loggedInUser?: ILoggedUser;
@@ -24,7 +21,6 @@ type ProfileForm = {
 };
 
 function Profile(props: ProfileProps) {
-  // let getPosts = new GetPosts();
   const navigate = useNavigate();
   var loggedUser = JSON.parse(localStorage.getItem("user") || "{}");
 
@@ -64,8 +60,6 @@ function Profile(props: ProfileProps) {
       bio: props.loggedInUser?.bio,
     };
     props.editUser({ user: edittingUser }, props.loggedInUser?.token as string);
-    console.log("You clicked save", { user }, props.loggedInUser?.token);
-    // reset();
   }
 
   return (
@@ -91,7 +85,6 @@ function Profile(props: ProfileProps) {
               type="text"
               placeholder="Username"
               onChange={handleChange}
-              // value={props.loggedInUser?.username}
             />
           </label>
           <div style={{ height: 20 }}>
@@ -118,7 +111,6 @@ function Profile(props: ProfileProps) {
               type="text"
               placeholder="Email address"
               onChange={handleChange}
-              // value={user.email}
             />
           </label>
           <div style={{ height: 20 }}>
@@ -148,7 +140,6 @@ function Profile(props: ProfileProps) {
               type="password"
               placeholder="New Password"
               onChange={handleChange}
-              // value={user.password1}
             />
           </label>
           <div style={{ height: 20 }}>

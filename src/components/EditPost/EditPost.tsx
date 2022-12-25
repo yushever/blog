@@ -34,6 +34,9 @@ function EditPost(props: EditPostProps) {
 
   useEffect(() => {
     getPosts.getOnePost(slug as string).then((res) => {
+      setValue("title", res.title);
+      setValue("description", res.description);
+      setValue("body", res.body);
       setPost(res);
     });
   }, [slug]);
@@ -46,6 +49,7 @@ function EditPost(props: EditPostProps) {
     formState: { errors },
     handleSubmit,
     reset,
+    setValue,
   } = useForm<EditPostForm>({
     defaultValues: {
       title: post.title,
@@ -63,7 +67,7 @@ function EditPost(props: EditPostProps) {
 
   let tags = fields.map((tag, index) => {
     return (
-      <li>
+      <li key={"liKey:" + tag.id}>
         <input
           key={tag.id}
           {...register(`tagList.${index}.value`)}

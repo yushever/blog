@@ -52,7 +52,7 @@ function NewPost(props: NewPostProps) {
 
   let tags = fields.map((tag, index) => {
     return (
-      <li>
+      <li key={"liKey:" + tag.id}>
         <input
           key={tag.id}
           {...register(`tagList.${index}.value`)}
